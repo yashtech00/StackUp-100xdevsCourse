@@ -33,8 +33,12 @@ export const UpdateCourse = async(req:Request, res:Response) => {
         const { courseId } = req.params;
         const course = await CourseModel.findById({ courseId });
         if (!course) {
-            return res.status(401).json({message:""})
+            return res.status(401).json({ message: "course not found" });
         }
+        const updateCourse = await CourseModel.findByIdAndUpdate({
+            
+
+        })
     } catch (e:any) {
         console.error(e.message);
         return res.status(500).json({ message: "Internal server error" });
