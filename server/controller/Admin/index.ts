@@ -12,7 +12,7 @@ export const AddCourse = async(req:Request,res:Response) => {
             purchased
         })
 
-        return res.status(200).json({message:"new Course created successfully"})
+        return res.status(200).json({message:"new Course created successfully"},{data:newCourse})
 
     } catch (e) {
         
