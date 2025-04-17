@@ -89,11 +89,15 @@ export const GetCourse = async(req:Request, res:Response) => {
     }
 }
 
-export const GetCourseById = (req:Request, res:Response) => {
+export const GetCourseById = async(req:Request, res:Response) => {
     try {
         const { courseId } = req.params;
-        
-    } catch (e) {
+        if (!courseId) {
+            return res.status(401).json({message:"Invalid courseId"})
+        }
+        const course = await CourseModel.findOne({ courseId });
+        return res.status(200).json({ message: "fetched course", data: course });
+    } catch (e:any) {
         console.error(e.message);
         return res.status(500).json({ message: "Internal server error" });
     }
