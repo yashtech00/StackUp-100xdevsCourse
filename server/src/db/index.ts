@@ -1,21 +1,24 @@
 
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-export default function connectDb() {
-    const MONGO_URL = process.env.MONGO_URL;
-    if (!MONGO_URL) {
-        throw new Error("Mongo deb url is not valid")
+ const connectDB = () => {
+    const mongoUrl = process.env.MONGO_URL;
+    if (!mongoUrl) {
+        throw new Error("MONGO_URL is not defined in the environment variables.");
     }
     try {
-        mongoose.connect(MONGO_URL)
+        mongoose.connect(mongoUrl)
             .then(() => {
-                console.log("Mongo db is connected successfully");
+                console.log("Connected to MongoDB successfully.");
             })
-            .catch(() => {
-                console.log("Mongodb is not connected");
-            })
+            .catch((e) => {
+                console.error("Error connecting to MongoDB:", e);
+                throw e;
+            });
     } catch (e) {
-        console.error("Error connecting to mongoose",e);
+        console.error("Error connecting to MongoDB:", e);
         throw e;
     }
 }
+
+export default connectDB

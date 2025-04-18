@@ -11,3 +11,6 @@ router.get("/course/:id", GetCourseById);
 router.post("/course", AddCourse)
 router.put("/course/:id",UpdateCourse)
 router.delete("/course/:id",DeleteCourse)
+
+
+export default router;
