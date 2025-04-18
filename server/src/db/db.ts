@@ -2,7 +2,9 @@
 import mongoose from "mongoose";
 
  const connectDB = () => {
-    const mongoUrl = process.env.MONGO_URL;
+     const mongoUrl = process.env.MONGO_URL;
+     console.log(mongoUrl);
+     
     if (!mongoUrl) {
         throw new Error("MONGO_URL is not defined in the environment variables.");
     }
