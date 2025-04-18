@@ -13,8 +13,6 @@ const PORT = process.env.PORT || 8001;
 
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
-app.use("/course", courseRouter);
-app.use("/purchase", purchaseRoter);
 
 
 app.listen(PORT, () => {

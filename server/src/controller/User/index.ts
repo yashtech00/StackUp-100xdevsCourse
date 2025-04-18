@@ -14,7 +14,7 @@ export const GetUserCourse = async(req:any,res:any) => {
 
 export const CoursePurchased = async (req: any, res: any) => {
     try {
-        const user = await UserModel.findOne({ username: req.user.username }).populate("purchased");
+        const user = await UserModel.findOne({ email: req.user.email }).populate("purchased");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -33,7 +33,7 @@ export const Purchase = async (req: any, res: any) => {
             return res.status(404).json({ message: "course not found" });
         }
 
-        const user = await UserModel.findOne({ username: req.user.username })
+        const user = await UserModel.findOne({ email: req.user.email })
         if (!user) {
             return res.status(404).json({ message: "user not found" })
         }
@@ -50,9 +50,19 @@ export const Purchase = async (req: any, res: any) => {
 }
 export const CourseById = async (req: any, res: any) => {
     try {
-        
-    } catch (e) {
-        
+        const { courseId } = req.params;
+        const course = await CourseModel.findOne(courseId);
+        if (!course) {
+            return res.status(404).json({ message: "course not found" });
+        }
+        const user = await UserModel.findOne({ email: req.user.email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json({ message: "fetched course",data:course });
+    } catch (e:any) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while fetching" });
     }
 }
 
