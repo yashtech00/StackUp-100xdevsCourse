@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import CourseModel from "../../model/course";
 import { v2 } from "cloudinary";
 
-export const AddCourse = async(req:Request,res:Response) => {
+export const AddCourse = async(req:any,res:any) => {
     try {
-        const { title, description, price, purchased } = req.body;
+        const { title, description, price, published } = req.body;
         let { imageUrl } = req.body;
 
         if (imageUrl) {
@@ -16,7 +16,7 @@ export const AddCourse = async(req:Request,res:Response) => {
             title,
             description,
             price,
-            purchased,
+            published,
             imageUrl
         })
 
@@ -28,14 +28,14 @@ export const AddCourse = async(req:Request,res:Response) => {
     }
 }
 
-export const UpdateCourse = async(req:Request, res:Response) => {
+export const UpdateCourse = async(req:any,res:any) => {
     try {
         const { courseId } = req.params;
         const course = await CourseModel.findById({ courseId });
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
-        const { title, description, price, purchased, imageUrl } = req.body;
+        const { title, description, price, published, imageUrl } = req.body;
 
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
@@ -49,7 +49,7 @@ export const UpdateCourse = async(req:Request, res:Response) => {
             title,
             description,
             price,
-            purchased,
+            published,
             imageUrl: updatedImageUrl
             },
             { new: true } // Return the updated document
@@ -62,7 +62,7 @@ export const UpdateCourse = async(req:Request, res:Response) => {
     }
 }
 
-export const DeleteCourse = async(req:Request, res:Response) => {
+export const DeleteCourse = async(req:any,res:any) => {
     try {
         const { courseId } = req.params;
         const course = await CourseModel.findById(courseId)
@@ -79,7 +79,7 @@ export const DeleteCourse = async(req:Request, res:Response) => {
     }
 }
 
-export const GetCourse = async(req:Request, res:Response) => {
+export const GetCourse = async(req:any,res:any) => {
     try {
         const course = await CourseModel.find();
         return res.status(200).json({ message: "fetch all courses",data:course });
@@ -89,7 +89,7 @@ export const GetCourse = async(req:Request, res:Response) => {
     }
 }
 
-export const GetCourseById = async(req:Request, res:Response) => {
+export const GetCourseById = async(req:any,res:any) => {
     try {
         const { courseId } = req.params;
         if (!courseId) {

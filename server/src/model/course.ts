@@ -16,7 +16,7 @@ const CourseSchema = new Schema({
         type: String,
         required: true,
     },
-    purchased: {
+    published: {
         type: Boolean,
         default:'false'
     },

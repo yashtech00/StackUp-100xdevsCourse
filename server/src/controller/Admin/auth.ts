@@ -1,7 +1,8 @@
-import { ErrorRequestHandler, Request, Response } from "express";
+import { Request, Response } from "express";
 
 
-export const AdminAuth = (req: Request, res: Response) => {
+
+export const AdminAuth = (req:any, res:any) => {
     try {
         const { email, password } = req.body;
 
@@ -12,7 +13,7 @@ export const AdminAuth = (req: Request, res: Response) => {
         if (email !== adminEmail || password !== adminPassword) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
-
+        
         // Success response
         return res.status(200).json({ message: "Admin authenticated successfully" });
 

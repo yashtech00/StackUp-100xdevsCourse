@@ -16,10 +16,10 @@ const userSchema = new Schema({
         type: String,
         required:true
     },
-    purchased: {
+    purchased: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"course"
-    }
+    }]
 })
 
 const UserModel = mongoose.model("User", userSchema);
