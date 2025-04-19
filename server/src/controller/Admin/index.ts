@@ -24,7 +24,7 @@ export const AddCourse = async(req:any,res:any) => {
 
     } catch (e:any) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error while adding course" });
     }
 }
 

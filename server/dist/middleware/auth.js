@@ -38,7 +38,7 @@ const Authenticate = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
     catch (e) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error while authenticating" });
     }
 });
 exports.default = Authenticate;

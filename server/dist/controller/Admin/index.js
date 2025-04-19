@@ -34,7 +34,7 @@ const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (e) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error while adding course" });
     }
 });
 exports.AddCourse = AddCourse;

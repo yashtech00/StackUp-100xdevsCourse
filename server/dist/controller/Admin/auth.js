@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminAuth = void 0;
+const generateToken_1 = require("../../lib/generateToken");
 const AdminAuth = (req, res) => {
     try {
         const { email, password } = req.body;
@@ -10,6 +11,7 @@ const AdminAuth = (req, res) => {
         if (email !== adminEmail || password !== adminPassword) {
             return res.status(401).json({ message: "Invalid credentials" });
         }
+        (0, generateToken_1.generateToken)(adminEmail, res);
         // Success response
         return res.status(200).json({ message: "Admin authenticated successfully" });
     }

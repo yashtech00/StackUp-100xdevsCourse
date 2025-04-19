@@ -25,7 +25,7 @@ const Authenticate = async(req:any,res:any,next:any) => {
         next()
     } catch (e:any) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error" })
+        return res.status(500).json({ message: "Internal server error while authenticating" })
     }
 }
 
