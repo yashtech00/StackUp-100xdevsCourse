@@ -1,7 +1,17 @@
-import { LoginPage } from "../Components/LoginPage";
+import { Auth } from "../Components/Auth";
+import { Quote } from "../Components/Quote";
 
 export default function Login  () {
     return (
-       <LoginPage/>
+        <div>
+            <div className="grid grid-cols-4">
+                <div>
+                    <Auth type={ "login"} />
+                </div>
+                <div>
+                    <Quote/>
+                </div>
+            </div>
+      </div>
     )
 }
