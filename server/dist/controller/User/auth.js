@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Signin = exports.Signup = void 0;
+exports.Logout = exports.GetMe = exports.Signin = exports.Signup = void 0;
 const generateToken_1 = require("../../lib/generateToken");
 const user_1 = __importDefault(require("../../model/user"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -58,3 +58,25 @@ const Signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Signin = Signin;
+const GetMe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield user_1.default.findById(req.user._id).select("-password");
+        return res.status(200).json({ message: "me got this", data: user });
+    }
+    catch (e) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while fetch user details" });
+    }
+});
+exports.GetMe = GetMe;
+const Logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });
+        res.status(200).json({ message: "Logout Successfully" });
+    }
+    catch (e) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while logout" });
+    }
+});
+exports.Logout = Logout;
