@@ -1,10 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { SideBar } from './Components/SideBar';
+import Dashboard from './Pages/Dashboard';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
   return (
     
     <BrowserRouter>
-      {authuser && <SideBar/>}
+      {authUser && <SideBar/>}
       <Routes>
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
         <Route path="/login" element={!authUser ? <Login /> : <Dashboard />} />
