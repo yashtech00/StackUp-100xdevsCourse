@@ -14,13 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetCourseById = exports.GetCourse = exports.DeleteCourse = exports.UpdateCourse = exports.AddCourse = void 0;
 const course_1 = __importDefault(require("../../model/course"));
-const cloudinary_1 = require("cloudinary");
+const Cloudinary_1 = __importDefault(require("../../lib/Cloudinary"));
 const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, description, price, published } = req.body;
         let { imageUrl } = req.body;
         if (imageUrl) {
-            const uploadRes = yield cloudinary_1.v2.uploader.upload(imageUrl);
+            const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
             imageUrl = uploadRes.secure_url;
         }
         const newCourse = yield course_1.default.create({
@@ -41,14 +41,15 @@ exports.AddCourse = AddCourse;
 const UpdateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { courseId } = req.params;
-        const course = yield course_1.default.findById({ courseId });
+        console.log({ courseId });
+        const course = yield course_1.default.findById(courseId);
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
         const { title, description, price, published, imageUrl } = req.body;
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
-            const uploadRes = yield cloudinary_1.v2.uploader.upload(imageUrl);
+            const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
             updatedImageUrl = uploadRes.secure_url;
         }
         const updateCourse = yield course_1.default.findByIdAndUpdate(courseId, {
@@ -100,7 +101,7 @@ const GetCourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!courseId) {
             return res.status(401).json({ message: "Invalid courseId" });
         }
-        const course = yield course_1.default.findOne({ courseId });
+        const course = yield course_1.default.findById(courseId);
         return res.status(200).json({ message: "fetched course", data: course });
     }
     catch (e) {

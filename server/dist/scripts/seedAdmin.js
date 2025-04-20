@@ -12,26 +12,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminAuth = void 0;
-const generateToken_1 = require("../../lib/generateToken");
-const admin_1 = __importDefault(require("../../model/admin"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const AdminAuth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const admin_1 = __importDefault(require("../model/admin"));
+dotenv_1.default.config();
+const createAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password } = req.body;
-        const admin = yield admin_1.default.findOne({ email });
-        if (!admin) {
-            return res.status(401).json({ message: "Admin not found" });
+        yield mongoose_1.default.connect(process.env.MONGO_URL);
+        const email = "yash123@gmail.com";
+        const plainPassword = "123456789";
+        const existing = yield admin_1.default.findOne({ email });
+        if (existing) {
+            console.log("✅ Admin already exists");
+            return process.exit();
         }
-        const isMatch = yield bcryptjs_1.default.compare(password, admin.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
-        (0, generateToken_1.generateToken)(admin._id, res);
-        return res.status(200).json({ message: "Admin authenticated successfully" });
+        const hashedPassword = yield bcryptjs_1.default.hash(plainPassword, 10);
+        const admin = new admin_1.default({ email, password: hashedPassword });
+        yield admin.save();
+        console.log("✅ Admin created successfully");
+        process.exit();
     }
-    catch (error) {
-        return res.status(500).json({ message: "Server error", error: error.message });
+    catch (err) {
+        console.error("❌ Error creating admin:", err);
+        process.exit(1);
     }
 });
-exports.AdminAuth = AdminAuth;
+createAdmin();

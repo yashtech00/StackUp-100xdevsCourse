@@ -6,8 +6,8 @@ import Authenticate from "../middleware/auth";
 const router = express.Router();
 
 
-router.post("/signin",Authenticate, Signin)
-router.post("/signup", Authenticate, Signup);
+router.post("/signin", Signin)
+router.post("/signup", Signup);
 
 router.get("/course", Authenticate,GetUserCourse); 
 router.post("/purchase/:courseId",Authenticate, Purchase);

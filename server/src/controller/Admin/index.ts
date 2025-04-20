@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import CourseModel from "../../model/course";
-import { v2 } from "cloudinary";
+import cloudinary from "../../lib/Cloudinary";
 
 export const AddCourse = async(req:any,res:any) => {
     try {
@@ -8,7 +8,7 @@ export const AddCourse = async(req:any,res:any) => {
         let { imageUrl } = req.body;
 
         if (imageUrl) {
-            const uploadRes = await v2.uploader.upload(imageUrl);
+            const uploadRes = await cloudinary.uploader.upload(imageUrl);
             imageUrl = uploadRes.secure_url
         }
 
@@ -31,7 +31,9 @@ export const AddCourse = async(req:any,res:any) => {
 export const UpdateCourse = async(req:any,res:any) => {
     try {
         const { courseId } = req.params;
-        const course = await CourseModel.findById({ courseId });
+        console.log({courseId});
+        
+        const course = await CourseModel.findById( courseId );
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
@@ -39,7 +41,7 @@ export const UpdateCourse = async(req:any,res:any) => {
 
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
-            const uploadRes = await v2.uploader.upload(imageUrl);
+            const uploadRes = await cloudinary.uploader.upload(imageUrl);
             updatedImageUrl = uploadRes.secure_url;
         }
 
@@ -95,10 +97,15 @@ export const GetCourseById = async(req:any,res:any) => {
         if (!courseId) {
             return res.status(401).json({message:"Invalid courseId"})
         }
-        const course = await CourseModel.findOne({ courseId });
+        const course = await CourseModel.findById( courseId );
         return res.status(200).json({ message: "fetched course", data: course });
     } catch (e:any) {
         console.error(e.message);
         return res.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+
+
+

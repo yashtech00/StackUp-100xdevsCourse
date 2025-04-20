@@ -12,26 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminAuth = void 0;
-const generateToken_1 = require("../../lib/generateToken");
-const admin_1 = __importDefault(require("../../model/admin"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const AdminAuth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const admin_1 = __importDefault(require("../model/admin"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const AuthenticateAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password } = req.body;
-        const admin = yield admin_1.default.findOne({ email });
-        if (!admin) {
+        const token = req.cookies.jwt;
+        if (!token)
+            return res.status(401).json({ message: "No token" });
+        const decode = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        const admin = yield admin_1.default.findById(decode.userId).select("-password");
+        if (!admin)
             return res.status(401).json({ message: "Admin not found" });
-        }
-        const isMatch = yield bcryptjs_1.default.compare(password, admin.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
-        (0, generateToken_1.generateToken)(admin._id, res);
-        return res.status(200).json({ message: "Admin authenticated successfully" });
+        req.admin = admin;
+        next();
     }
-    catch (error) {
-        return res.status(500).json({ message: "Server error", error: error.message });
+    catch (e) {
+        return res.status(500).json({ message: "Authentication failed", error: e.message });
     }
 });
-exports.AdminAuth = AdminAuth;
+exports.default = AuthenticateAdmin;
