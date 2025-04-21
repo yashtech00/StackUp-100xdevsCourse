@@ -1,7 +1,7 @@
+import { DashboardPage } from "../Components/DashboardPage";
+
 export default function Dashboard  () {
     return (
-        <div className="">
-            hello Dashboard
-        </div>
+        <DashboardPage/>
     )
 }

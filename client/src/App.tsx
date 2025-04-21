@@ -15,7 +15,7 @@ function App() {
     queryFn: async () => {
       try {
         const res = await axios.get("http://localhost:8001/user/me", { withCredentials: true });
-        console.log(res.data.data,"authuser");
+        console.log(res.data.data, "Authenticated User");
         
         return res.data.data;
       } catch (e) {
@@ -38,9 +38,9 @@ function App() {
     
     <BrowserRouter>
       <div className='bg-black min-h-screen text-white'>
-        <div className='flex w-full max-w-6xl'>
+        <div className='flex w-full'>
           {authUser && <SideBar />}
-          <div className='flex-1 '>
+          <div className='flex-1 overflow-hidden '>
       <Routes>
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
         <Route path="/login" element={!authUser ? <Login /> : <Dashboard />} />
