@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
+import { Link } from "react-router-dom";
 
 export const Auth = ({ type }: { type: "signup" | "login" }) => {
 
@@ -27,7 +28,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             <div className="border border-gray-700 rounded-lg shadow-lg p-6 w-full max-w-md ">
             <h1 className="text-2xl font-bold text-center mb-6">{type === "signup" ? "Signup" : "Login"}</h1>
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-                <div>
+               {type === "signup" ? <div>
                 <label className="block text-sm font-medium mb-1">Username</label>
                 <input
                     className="w-full px-3 py-2 border border-gray-600 rounded-md bg-black text-white "
@@ -36,7 +37,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
                     value={username}
                     type="text"
                 />
-                </div>
+                </div> : ""}
                 <div>
                 <label className="block text-sm font-medium mb-1">Email</label>
                 <input
@@ -63,8 +64,17 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
                 >
                 {type === "signup" ? "Sign Up" : "Log In"}
                     </button>
-                    <div>
-                        
+                    
+                    <div className="flex justify-center">
+                        <span className="">
+                        {type === "signup" ? "Already have an account," : "Don't have an account,"}
+                            
+                        </span>
+                        <Link to={type ==="signup" ?"/login" : "/signup"}>
+                            <span className="underline mx-1">
+                            {type === "signup" ? "Login" : "Signup"}
+                            </span>
+                            </Link>
                     </div>
             </form>
             </div>
