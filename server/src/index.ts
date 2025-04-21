@@ -8,7 +8,11 @@ import adminRouter from "./router/adminRouter";
 import cookieParser from "cookie-parser";
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+    origin: ['https://tweetify-tau.vercel.app', 'http://localhost:3000'],
+    credentials: true,
+  };
+app.use(cors(corsOptions));
 connectDb();
 
 app.use(express.json({ limit: "5mb" }));

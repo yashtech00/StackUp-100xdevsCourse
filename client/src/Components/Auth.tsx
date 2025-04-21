@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Auth = ({ type }: { type: "signup" | "login" }) => {
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const navigate = useNavigate();
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`http://localhost/user/${type}`, {
+            const res = await axios.post(`http://localhost:8001/user/${type}`, {
                 username,
                 email,
                 password
@@ -18,6 +18,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             setUsername("");
             setEmail("");
             setPassword("");
+            navigate("/dashboard")
         } catch (e: any) {
             console.error(e.message);
         }

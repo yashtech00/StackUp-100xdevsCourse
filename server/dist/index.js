@@ -12,7 +12,11 @@ const userRouter_1 = __importDefault(require("./router/userRouter"));
 const adminRouter_1 = __importDefault(require("./router/adminRouter"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
+const corsOptions = {
+    origin: ['https://tweetify-tau.vercel.app', 'http://localhost:3000'],
+    credentials: true,
+};
+app.use((0, cors_1.default)(corsOptions));
 (0, db_1.default)();
 app.use(express_1.default.json({ limit: "5mb" }));
 app.use(express_1.default.urlencoded({ extended: true }));

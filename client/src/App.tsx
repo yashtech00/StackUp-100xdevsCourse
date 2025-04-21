@@ -14,8 +14,10 @@ function App() {
     queryKey: ['authUser'],
     queryFn: async () => {
       try {
-        const res = await axios.get("http://localhost:8001/user/me");
-        return res.data.user;
+        const res = await axios.get("http://localhost:8001/user/me", { withCredentials: true });
+        console.log(res.data.data,"authuser");
+        
+        return res.data.data;
       } catch (e) {
         return null
       }
@@ -35,15 +37,19 @@ function App() {
   return (
     
     <BrowserRouter>
-      <div className='bg-black'>
-      {authUser && <SideBar/>}
+      <div className='bg-black min-h-screen text-white'>
+        <div className='flex w-full max-w-6xl'>
+          {authUser && <SideBar />}
+          <div className='flex-1 '>
       <Routes>
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
         <Route path="/login" element={!authUser ? <Login /> : <Dashboard />} />
         <Route path='/signup' element={!authUser ? <Signup /> : <Dashboard />} />
-        <Route path='/dashboard' element={!authUser ? <Dashboard /> : <Home />} />
+        <Route path='/dashboard' element={authUser ? <Dashboard /> : <Home />} />
         
-    </Routes>
+            </Routes>
+            </div>
+          </div>
     </div> 
     </BrowserRouter>
   );
