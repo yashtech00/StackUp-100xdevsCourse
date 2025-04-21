@@ -35,12 +35,14 @@ export const DashboardPage = () => {
                         className="w-full bg-black border-2 px-4 py-2 rounded-2xl border-stone-900"
                     />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-6">
+                <div className="flex justify-center bg-yellow-100">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-6 bg-red-300 ">
                     {course.map((CourseCard) => (
-                        <div key={CourseCard._id} className="">
+                        <div key={CourseCard._id} className=" flex justify-center">
                             <GetCourseCard course={CourseCard} />
                         </div>
                     ))}
+                </div>
                 </div>
             </div>
         </div>
