@@ -2,10 +2,10 @@ import CourseModel from "../../model/course";
 import UserModel from "../../model/user";
 
 
-export const GetUserCourse = async(req:any,res:any) => {
+export const GetUserCourse = async (req: any, res: any) => {
     try {
-        const course = await CourseModel.find();
-        return res.status(200).json({ message: "fetch all courses", data: course });
+        const courses = await CourseModel.find({ published: true });
+        return res.status(200).json({ message: "Fetched all published courses", data: courses });
     } catch (e) {
         console.error(e);
         return res.status(500).json({ message: "Internal server error" });

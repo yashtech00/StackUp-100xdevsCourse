@@ -17,8 +17,8 @@ const course_1 = __importDefault(require("../../model/course"));
 const user_1 = __importDefault(require("../../model/user"));
 const GetUserCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = yield course_1.default.find();
-        return res.status(200).json({ message: "fetch all courses", data: course });
+        const courses = yield course_1.default.find({ published: true });
+        return res.status(200).json({ message: "Fetched all published courses", data: courses });
     }
     catch (e) {
         console.error(e);
