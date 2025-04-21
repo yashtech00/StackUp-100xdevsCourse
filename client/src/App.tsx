@@ -35,6 +35,7 @@ function App() {
   return (
     
     <BrowserRouter>
+      <div className='bg-black'>
       {authUser && <SideBar/>}
       <Routes>
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
@@ -43,6 +44,7 @@ function App() {
         <Route path='/dashboard' element={!authUser ? <Dashboard /> : <Home />} />
         
     </Routes>
+    </div> 
     </BrowserRouter>
   );
 }
