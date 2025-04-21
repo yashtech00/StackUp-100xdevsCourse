@@ -4,7 +4,7 @@ import { Quote } from "../Components/Quote";
 export default function Login  () {
     return (
         <div>
-            <div className="grid grid-cols-4">
+            <div className="grid grid-cols-2">
                 <div>
                     <Auth type={ "login"} />
                 </div>
