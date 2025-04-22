@@ -19,7 +19,12 @@ const userSchema = new Schema({
     purchased: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"course"
-    }]
+    }],
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default:'user'
+    }
 })
 
 const UserModel = mongoose.model("User", userSchema);

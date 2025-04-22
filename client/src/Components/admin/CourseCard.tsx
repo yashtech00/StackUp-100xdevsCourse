@@ -22,7 +22,7 @@ export const CourseCard = ({ course }: { course: courseProp }) => {
                 <button className="flex justify-center bg-blue-600 w-full mx-2 py-2 rounded-2xl" >View Details</button>
                 </div>
                     </Link>
-                    <div className="mx-2 ">
+                    <div className="mx-2 flex  justify-center w-full  ">
                         <div>
                             <button>Edit</button>
                         </div>

@@ -5,8 +5,6 @@ import Authenticate from "../middleware/auth";
 
 const router = express.Router();
 
-
-
 router.get("/me", Authenticate, GetMe);
 router.post("/logout", Logout);
 
