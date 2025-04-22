@@ -17,7 +17,7 @@ const course_1 = __importDefault(require("../../model/course"));
 const Cloudinary_1 = __importDefault(require("../../lib/Cloudinary"));
 const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, price, published } = req.body;
+        const { title, description, price, published, original_price, discount_price, discount } = req.body;
         let { imageUrl } = req.body;
         if (imageUrl) {
             const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
@@ -25,6 +25,9 @@ const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const newCourse = yield course_1.default.create({
             title,
+            original_price,
+            discount_price,
+            discount,
             description,
             price,
             published,
@@ -46,13 +49,16 @@ const UpdateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
-        const { title, description, price, published, imageUrl } = req.body;
+        const { title, description, price, published, imageUrl, original_price, discount_price, discount } = req.body;
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
             const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
             updatedImageUrl = uploadRes.secure_url;
         }
         const updateCourse = yield course_1.default.findByIdAndUpdate(courseId, {
+            original_price,
+            discount_price,
+            discount,
             title,
             description,
             price,

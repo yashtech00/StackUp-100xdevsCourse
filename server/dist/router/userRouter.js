@@ -10,7 +10,7 @@ const auth_2 = __importDefault(require("../middleware/auth"));
 const router = express_1.default.Router();
 router.get("/me", auth_2.default, auth_1.GetMe);
 router.post("/logout", auth_1.Logout);
-router.post("/signin", auth_1.Signin);
+router.post("/login", auth_1.Signin);
 router.post("/signup", auth_1.Signup);
 router.get("/course", auth_2.default, User_1.GetUserCourse);
 router.post("/purchase/:courseId", auth_2.default, User_1.Purchase);

@@ -43,7 +43,10 @@ export const Signin = async(req:any,res:any) => {
         }
         generateToken(user._id,res);
 
-        return res.json({ message: "User created successfully" }, { status: 200 }, { data: user });
+        return res.status(200).json({  
+            message: "User logged in successfully",  
+            data: user    
+          });  
     } catch (e:any) {
         console.error(e.message);
         return res.json({ message: "Internal server error while SignIn" }, { status: 500 });

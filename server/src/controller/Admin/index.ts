@@ -4,7 +4,9 @@ import cloudinary from "../../lib/Cloudinary";
 
 export const AddCourse = async(req:any,res:any) => {
     try {
-        const { title, description, price, published } = req.body;
+        const { title, description, price, published, original_price,
+            discount_price,
+            discount } = req.body;
         let { imageUrl } = req.body;
 
         if (imageUrl) {
@@ -14,6 +16,9 @@ export const AddCourse = async(req:any,res:any) => {
 
         const newCourse = await CourseModel.create({
             title,
+            original_price,
+            discount_price,
+            discount,
             description,
             price,
             published,
@@ -37,7 +42,9 @@ export const UpdateCourse = async(req:any,res:any) => {
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
-        const { title, description, price, published, imageUrl } = req.body;
+        const { title, description, price, published, imageUrl, original_price,
+            discount_price,
+            discount } = req.body;
 
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
@@ -48,6 +55,9 @@ export const UpdateCourse = async(req:any,res:any) => {
         const updateCourse = await CourseModel.findByIdAndUpdate(
             courseId,
             {
+                original_price,
+                discount_price,
+                discount,
             title,
             description,
             price,

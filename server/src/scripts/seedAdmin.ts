@@ -21,7 +21,7 @@ const createAdmin = async () => {
 
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-    const admin = new UserModel({ email, password: hashedPassword , role});
+    const admin = await UserModel.create({username:"admin", email, password: hashedPassword , role});
     await admin.save();
 
     console.log("✅ Admin created successfully");

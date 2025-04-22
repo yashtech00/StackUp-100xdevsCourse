@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/me", Authenticate, GetMe);
 router.post("/logout", Logout);
 
-router.post("/signin", Signin)
+router.post("/login", Signin)
 router.post("/signup", Signup);
 
 router.get("/course", Authenticate,GetUserCourse); 

@@ -15,9 +15,17 @@ const CourseSchema = new Schema({
         type: String,
         required: true,
     },
-    price: {
+    discount_price: {
         type: String,
         required: true,
+    },
+    original_price: {
+        type: String,
+        required: true
+    },
+    discount: {
+        type: String,
+        required: true
     },
     published: {
         type: Boolean,

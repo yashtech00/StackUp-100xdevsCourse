@@ -8,21 +8,31 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const handleSubmit = async () => {
-        try {
-            const res = await axios.post(`http://localhost:8001/user/${type}`, {
-                username,
-                email,
-                password
-            }, { withCredentials: true });
-            setUsername("");
-            setEmail("");
-            setPassword("");
-            navigate("/dashboard")
-        } catch (e: any) {
-            console.error(e.message);
-        }
-    }
+    const handleSubmit = async () => {  
+        try {  
+          const res = await axios.post(`http://localhost:8001/user/${type}`, {  
+            username,  
+            email,  
+            password  
+          }, { withCredentials: true });  
+      
+          setUsername("");  
+          setEmail("");  
+          setPassword("");  
+          console.log(res,"login info");
+          
+          // Extract role from response  
+          const role = res.data.data?.role;  
+      
+          if (role === 'admin') {  
+            navigate("/admin");  
+          } else {  
+            navigate("/dashboard");  
+          }  
+        } catch (e: any) {  
+          console.error(e.message);  
+        }  
+      };  
 
     return (
         <div className="flex justify-center items-center min-h-screen  text-white">

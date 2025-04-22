@@ -6,7 +6,7 @@ export const CourseCard = ({ course }: { course: courseProp }) => {
 
     return (
         <div>
-            <div>
+            <div className="text-white">
             <div className="max-w-xs rounded-xl  overflow-hidden  border-2 border-stone-900">
             <img className="w-full h-48 object-cover" src={course.imageUrl} alt={course.title} />
             <div className="px-6 py-4">

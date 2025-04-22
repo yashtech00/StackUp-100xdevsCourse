@@ -1,7 +1,22 @@
+import axios from "axios"
 import { BookOpen, CircleHelp, LogOut, ShoppingCart, User } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const SideBar = () => {
+    const navigate = useNavigate();
+    const handleLogout = async() => {
+        try {
+            const res = await axios.post("http://localhost:8001/user/logout", {}, { withCredentials: true });
+            console.log(res.status,"logout");
+            
+            navigate("/");
+
+        } catch (e:any) {
+            console.error(e.message);
+            
+        }
+    }
+
     return (
         <div className="sticky w-64">
             <div className="border-r-2 border-gray-600 h-screen flex flex-col justify-between">
@@ -36,7 +51,7 @@ export const SideBar = () => {
                 <p className="font-semibold text-sm truncate">fullname</p>
                 <p className="text-sm text-gray-400">username</p>
                 </div>
-                <LogOut
+                <LogOut onClick={handleLogout}
                 className="w-5 h-5 text-gray-600 hover:text-red-500 cursor-pointer"
                 />
             </div>

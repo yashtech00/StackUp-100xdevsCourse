@@ -1,84 +1,80 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';  
+import Home from './Pages/Home';  
+import { useQuery } from '@tanstack/react-query';  
+import axios from 'axios';  
+import { SideBar } from './Components/SideBar';  
+import Dashboard from './Pages/Dashboard';  
+import Login from './Pages/Login';  
+import Signup from './Pages/Signup';  
+import Course from './Pages/Course';  
 
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Signup from './Pages/Signup';
-import Dashboard from './Pages/Dashboard';
-import Course from './Pages/Course';
-import AdminCourse from './Pages/Admin/AdminCourse';
-import AdminLogin from './Pages/Admin/AdminLogin';
-import UserLayout from './layouts/UserLayouts';
-import AdminLayout from './layouts/AdminLayouts';
-import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';
+// Admin Pages  
+import AdminCourse from './Pages/Admin/AdminCourse';  
 
+import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';  
 
-function AppWrapper() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-}
+function UserLayout({ children }: { children: React.ReactNode }) {  
+  return (  
+    <div className="flex w-full min-h-screen">  
+      <SideBar />  
+      <main className="flex-grow p-4">  
+        {children}  
+      </main>  
+    </div>  
+  );  
+}  
 
-function App() {
-  const { data: authUser } = useQuery({
-    queryKey: ['authUser'],
-    queryFn: async () => {
-      try {
-        const res = await axios.get('http://localhost:8001/user/me', {
-          withCredentials: true,
-        });
-        return res.data.data;
-      } catch {
-        return null;
-      }
-    },
-    retry: false,
-  });
+function AdminLayout({ children }: { children: React.ReactNode }) {  
+  return (  
+    <div className="min-h-screen p-4">  
+      {children}  
+    </div>  
+  );  
+}  
 
-  
+function App() {  
+  const { data: authUser, isLoading } = useQuery({  
+    queryKey: ['authUser'],  
+    queryFn: async () => {  
+      try {  
+        const res = await axios.get("http://localhost:8001/user/me", { withCredentials: true });  
+        return res.data.data;  
+      } catch (e) {  
+        return null;  
+      }  
+    },  
+    retry: false,  
+  });  
 
-  const isUser = Boolean(authUser);
-  
+  if (isLoading) {  
+    return (  
+      <div className="flex justify-center items-center h-screen">  
+        Loading...  
+      </div>  
+    );  
+  }  
 
-  return (
-    <div className='bg-black text-white min-h-screen'>
-    <Routes>
-     
-      {/* User Routes (wrapped in UserLayout with sidebar) */}
-      {isUser && (
-        <Route path="/" element={<UserLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="course/:courseId" element={<Course />} />
-        </Route>
-      )}
+  const isAdmin = authUser?.role === 'admin';  
 
-      {/* Public Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={!isUser ? <Login /> : <Navigate to="/dashboard" />} />
-      <Route path="/signup" element={!isUser ? <Signup /> : <Navigate to="/dashboard" />} />
+  return (  
+    <BrowserRouter>  
+      <div className="bg-black text-white min-h-screen">  
+        <Routes>  
+          {/* Admin Routes wrapped in AdminLayout */}  
+          <Route path="/login" element={<AdminLayout><Login /></AdminLayout>} />  
+          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/login" />} />  
+          <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login" />} />  
 
-      {/* Admin Routes (no sidebar) */}
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route
-        path="/admin"
-        element={ <AdminLayout /> }
-      >
-        <Route path='/admin/course' element={<AdminCourse />} />
-        <Route path="course/:courseId" element={<AdminDetailCourse />} />
-        </Route>
-       
-      </Routes>
-      </div>
-  );
-}
+          {/* User routes wrapped in UserLayout if authenticated */}  
+          <Route path="/" element={authUser && !isAdmin ? <UserLayout><Dashboard /></UserLayout> : <Home />} />  
+          <Route path="/login" element={!authUser ? <Login /> : <Navigate to="/dashboard" />} />  
+          <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to="/dashboard" />} />  
+          <Route path="/dashboard" element={authUser && !isAdmin ? <UserLayout><Dashboard /></UserLayout> : <Navigate to="/" />} />  
+          <Route path="/course/:courseId" element={authUser && !isAdmin ? <UserLayout><Course /></UserLayout> : <Navigate to="/" />} />  
+        </Routes>  
+      </div>  
+    </BrowserRouter>  
+  );  
+}  
 
-export default AppWrapper;
+export default App;  

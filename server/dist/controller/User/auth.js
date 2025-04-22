@@ -50,7 +50,10 @@ const Signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.json({ message: "Invalid Password" }, { status: 401 });
         }
         (0, generateToken_1.generateToken)(user._id, res);
-        return res.json({ message: "User created successfully" }, { status: 200 }, { data: user });
+        return res.status(200).json({
+            message: "User logged in successfully",
+            data: user
+        });
     }
     catch (e) {
         console.error(e.message);

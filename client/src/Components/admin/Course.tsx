@@ -18,12 +18,14 @@ export const Course = () => {
                 
             }
         }
+        handleFetch();
     },[])
 
 
 
     return (
         <div>
+            hello
             <div>
                 {course.map((AllCourse) => (
                     <div key={AllCourse._id}>
