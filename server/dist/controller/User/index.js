@@ -67,7 +67,7 @@ exports.Purchase = Purchase;
 const CourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { courseId } = req.params;
-        const course = yield course_1.default.findOne(courseId);
+        const course = yield course_1.default.findOne({ _id: courseId });
         if (!course) {
             return res.status(404).json({ message: "course not found" });
         }

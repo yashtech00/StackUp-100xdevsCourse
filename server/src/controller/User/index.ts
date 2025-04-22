@@ -51,7 +51,7 @@ export const Purchase = async (req: any, res: any) => {
 export const CourseById = async (req: any, res: any) => {
     try {
         const { courseId } = req.params;
-        const course = await CourseModel.findOne(courseId);
+        const course = await CourseModel.findOne({_id:courseId});
         if (!course) {
             return res.status(404).json({ message: "course not found" });
         }
