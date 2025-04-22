@@ -6,6 +6,7 @@ import { SideBar } from './Components/SideBar';
 import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
+import Course from './Pages/Course';
 
 
 function App() {
@@ -40,15 +41,16 @@ function App() {
       <div className='bg-black min-h-screen text-white'>
         <div className='flex w-full'>
           {authUser && <SideBar />}
-          <div className='flex-1 overflow-hidden '>
+         
       <Routes>
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
         <Route path="/login" element={!authUser ? <Login /> : <Dashboard />} />
         <Route path='/signup' element={!authUser ? <Signup /> : <Dashboard />} />
-        <Route path='/dashboard' element={authUser ? <Dashboard /> : <Home />} />
+            <Route path='/dashboard' element={authUser ? <Dashboard /> : <Home />} />
+            <Route path='/course/:courseId' element={authUser ? <Course /> : <Home />} />
         
             </Routes>
-            </div>
+          
           </div>
     </div> 
     </BrowserRouter>
