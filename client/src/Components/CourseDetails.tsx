@@ -38,6 +38,8 @@ export const CourseDetails = () => {
                                 </div>
                                 <div>
                                     <img src={course.imageUrl} alt={course.title} />
+                                    <span>Price</span>
+                                    <div>{course.price}</div>
                                 </div>
                             </div>
                         </div>

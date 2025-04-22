@@ -7,6 +7,8 @@ import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Course from './Pages/Course';
+import AdminCourse from './Pages/Admin/AdminCourse';
+import AdminLogin from './Pages/Admin/AdminLogin';
 
 
 function App() {
@@ -46,9 +48,11 @@ function App() {
         <Route path='/' element={authUser ? <Dashboard /> :<Home/>} />
         <Route path="/login" element={!authUser ? <Login /> : <Dashboard />} />
         <Route path='/signup' element={!authUser ? <Signup /> : <Dashboard />} />
-            <Route path='/dashboard' element={authUser ? <Dashboard /> : <Home />} />
-            <Route path='/course/:courseId' element={authUser ? <Course /> : <Home />} />
-        
+        <Route path='/dashboard' element={authUser ? <Dashboard /> : <Home />} />
+        <Route path='/course/:courseId' element={authUser ? <Course /> : <Home />} />
+            <Route path='/admin' element={<AdminCourse />} />
+            <Route path='/admin/login' element={<AdminLogin />} />
+            <Route path='/admin/course/:courseId' element={<AdminLogin/>} />
             </Routes>
           
           </div>
