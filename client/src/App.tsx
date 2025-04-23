@@ -62,7 +62,7 @@ function App() {
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
           <Route path="/login" element={<AdminLayout><Login /></AdminLayout>} />  
-          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/login" />} />  
+          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/login" />} />
           <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login" />} />  
 
           {/* User routes wrapped in UserLayout if authenticated */}  
