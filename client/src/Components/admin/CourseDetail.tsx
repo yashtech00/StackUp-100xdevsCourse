@@ -1,6 +1,6 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { FormEventHandler, useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { courseProp } from "../DashboardPage"
 import { Navbar } from "../Navbar"
 
@@ -8,22 +8,8 @@ export const CourseDetail = () => {
 
     const [course, setCourse] = useState<courseProp | null>(null);
     const { courseId } = useParams();
-    console.log(courseId, "id");
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const handleFetch = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
-                console.log(res);
-
-                setCourse(res.data.data)
-            } catch (e: any) {
-                console.error(e.message);
-
-            }
-        }
-        handleFetch();
-    }, [])
     const [isModel, setIsModel] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -32,25 +18,51 @@ export const CourseDetail = () => {
     const [discount, setDiscount] = useState("");
     const [image, setImage] = useState("");
 
+    useEffect(() => {
+        const handleFetch = async () => {
+           
+            try {
+                const res = await axios.get(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
+                console.log(res,"get detail");
+
+                setCourse(res.data.data)
+            } catch (e: any) {
+                console.error(e.message);
+
+            }
+        }
+        handleFetch();
+    }, [courseId])
+    
+
     const handleEdit = async () => {
         try {
-            const res = await axios.put(`http://localhost:8001/admin/course/${courseId}`, {}, { withCredentials: true })
+            const res = await axios.put(`http://localhost:8001/admin/course/${courseId}`, {
+                title,
+                description,
+                discount,
+                discount_price,
+                original_price,
+                image,
+            }, { withCredentials: true })
+            console.log(res,"edit   ");
+            setCourse(res.data.data);
             setTitle("")
             setDescription("")
             setDiscount("")
             setDiscount_price("")
             setImage("")
             setOriginal_price("")
+            setIsModel(false);
         } catch (e: any) {
             console.error(e.message);
         }
     }
 
-
     const handleDelete = async () => {
         try {
             const res = await axios.delete(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
-
+            navigate("/admin")
         } catch (e: any) {
             console.error(e.message);
         }
@@ -60,20 +72,33 @@ export const CourseDetail = () => {
         setIsModel(!isModel);
     }
 
-
-
     return (
         <div className="">
             <Navbar />
-            <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
+            <div className="max-w-7xl mx-auto px-4 py-10 space-y-8">
+            <div className="flex justify-end gap-6">
+                            <button
+                                onClick={handleToggle}
+                                className="px-8 py-3 text-white rounded-2xl  border-2 border-stone-900 hover:bg-stone-900 transition"
+                            >
+                                Edit Course
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="px-8 py-3 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition"
+                            >
+                                Delete Course
+                            </button>
+                        </div>
                 {course ? (
                     <>
-                        <div className="text-white bg-black rounded-2xl p-8 border-2">
-                            <h1 className="text-4xl font-bold mb-6">{course.title}</h1>
-                            <div className="flex flex-col md:flex-row gap-8">
+                        <div className="text-white bg-black rounded-2xl p-8 border-2 border-stone-900">
+                            <h1 className="text-5xl font-bold mb-6 bg-blue-600 py-4 px-6 rounded-lg">{course.title}</h1>
+                            <div className="flex flex-col md:flex-row gap-8 pl-6">
                                 <div className="flex-1 space-y-4">
-                                    <p className="text-lg">{course.description}</p>
-                                    <div className="text-xl font-semibold">Price: ₹{course.price}</div>
+                                    <p className="text-2xl font-semibold">Program Description</p>
+                                    <p className="text-md">{course.description}</p>
+                                    <div className="text-md font-semibold">Price: ₹{course.price}</div>
                                 </div>
                                 <div className="flex-shrink-0 w-full md:w-64">
                                     <img
@@ -85,20 +110,7 @@ export const CourseDetail = () => {
                             </div>
                         </div>
     
-                        <div className="flex justify-center gap-6">
-                            <button
-                                onClick={handleToggle}
-                                className="px-8 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition"
-                            >
-                                Edit Course
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                className="px-8 py-3 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition"
-                            >
-                                Delete Course
-                            </button>
-                        </div>
+                        
                     </>
                 ) : (
                     <div className="text-center text-lg">Loading...</div>
@@ -128,7 +140,7 @@ export const CourseDetail = () => {
 }
 
 
-interface CourseModelProps {
+export interface CourseModelProps {
     onClose: () => void;
     onSubmit: () => void;
     title: string;
@@ -145,7 +157,7 @@ interface CourseModelProps {
     setImage: (value: string) => void;
 }
 
-function CourseModel({
+export function CourseModel({
     onClose,
     onSubmit,
     title,
@@ -166,10 +178,7 @@ function CourseModel({
             <div className="bg-black border-2 border-stone-900 text-white p-6 rounded-2xl w-full max-w-md shadow-2xl">
                 <h2 className="text-2xl font-bold mb-4 text-center">Edit Course</h2>
                 <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        onSubmit();
-                    }}
+                   onSubmit={(e) => { e.preventDefault(); onSubmit(); }}
                     className="space-y-4"
                 >
                     <div>
@@ -242,6 +251,7 @@ function CourseModel({
                         <button
                             type="submit"
                             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                            
                         >
                             Save Changes
                         </button>
