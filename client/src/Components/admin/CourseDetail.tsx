@@ -68,7 +68,7 @@ export const CourseDetail = () => {
             <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
                 {course ? (
                     <>
-                        <div className="text-white bg-black rounded-2xl p-8 border-2 border-stone-900">
+                        <div className="text-white bg-black rounded-2xl p-8 border-2">
                             <h1 className="text-4xl font-bold mb-6">{course.title}</h1>
                             <div className="flex flex-col md:flex-row gap-8">
                                 <div className="flex-1 space-y-4">
