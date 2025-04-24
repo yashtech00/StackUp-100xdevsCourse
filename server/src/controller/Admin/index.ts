@@ -15,12 +15,9 @@ export const AddCourse = async (req:any, res:any) => {
         } = req.body;
 
         // If description is a string, split it into an array
-        const descriptionArray = Array.isArray(description)
-        ? description
-        : description.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
-      
+        const descriptionArray = Array.isArray(description) ? description : description.split('\n');
 
-        let imageUrlToUse = imageUrl;
+        let imageUrlToUse = imageUrl
         if (imageUrl) {
             try {
                 const uploadRes = await cloudinary.uploader.upload(imageUrl, {

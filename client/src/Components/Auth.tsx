@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks";
 
 export const Auth = ({ type }: { type: "signup" | "login" }) => {
+
+  const {setAuthUser} = useAuth()
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -15,7 +18,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             email,  
             password  
           }, { withCredentials: true });  
-      
+          setAuthUser(res.data.data);
           setUsername("");  
           setEmail("");  
           setPassword("");  
@@ -34,8 +37,12 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
         }  
       };  
 
-    return (
-        <div className="flex justify-center items-center min-h-screen  text-white">
+  return (
+      
+      <div className="flex justify-center items-center min-h-screen  text-white">
+          <div className="absolute top-4 left-4 px-10 font-bold text-4xl">
+          100xdevs
+        </div>
             <div className="border border-gray-700 rounded-lg shadow-lg p-6 w-full max-w-md ">
             <h1 className="text-2xl font-bold text-center mb-6">{type === "signup" ? "Signup" : "Login"}</h1>
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>

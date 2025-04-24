@@ -20,9 +20,7 @@ const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { title, description, // Expecting an array of strings or a single string with newline separators
         original_price, discount_price, discount, published, imageUrl } = req.body;
         // If description is a string, split it into an array
-        const descriptionArray = Array.isArray(description)
-            ? description
-            : description.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+        const descriptionArray = Array.isArray(description) ? description : description.split('\n');
         let imageUrlToUse = imageUrl;
         if (imageUrl) {
             try {

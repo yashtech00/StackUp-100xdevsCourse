@@ -12,6 +12,7 @@ import Course from './Pages/Course';
 import AdminCourse from './Pages/Admin/AdminCourse';  
 
 import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';  
+import { useAuth } from './hooks';
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
   return (  
@@ -33,18 +34,8 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 }  
 
 function App() {  
-  const { data: authUser, isLoading } = useQuery({  
-    queryKey: ['authUser'],  
-    queryFn: async () => {  
-      try {  
-        const res = await axios.get("http://localhost:8001/user/me", { withCredentials: true });  
-        return res.data.data;  
-      } catch (e) {  
-        return null;  
-      }  
-    },  
-    retry: false,  
-  });  
+  
+  const { authUser, isLoading } = useAuth();
 
   if (isLoading) {  
     return (  
@@ -62,7 +53,7 @@ function App() {
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
           <Route path="/login" element={<AdminLayout><Login /></AdminLayout>} />  
-          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/login" />} />
+          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/" />} />
           <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login" />} />  
 
           {/* User routes wrapped in UserLayout if authenticated */}  
