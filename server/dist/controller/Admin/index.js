@@ -17,27 +17,44 @@ const course_1 = __importDefault(require("../../model/course"));
 const Cloudinary_1 = __importDefault(require("../../lib/Cloudinary"));
 const AddCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, price, published, original_price, discount_price, discount } = req.body;
-        let { imageUrl } = req.body;
+        const { title, description, // Expecting an array of strings or a single string with newline separators
+        original_price, discount_price, discount, published, imageUrl } = req.body;
+        // If description is a string, split it into an array
+        const descriptionArray = Array.isArray(description)
+            ? description
+            : description.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+        let imageUrlToUse = imageUrl;
         if (imageUrl) {
-            const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
-            imageUrl = uploadRes.secure_url;
+            try {
+                const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl, {
+                    folder: 'courses', // Optional: organize uploads into folders
+                });
+                imageUrlToUse = uploadRes.secure_url;
+            }
+            catch (uploadError) {
+                console.error("Cloudinary upload error:", uploadError);
+                return res.status(500).json({ message: "Failed to upload image" });
+            }
         }
-        const newCourse = yield course_1.default.create({
+        const newCourse = new course_1.default({
             title,
+            description: descriptionArray,
             original_price,
             discount_price,
             discount,
-            description,
-            price,
             published,
-            imageUrl
+            imageUrl: imageUrlToUse,
         });
-        return res.status(200).json({ message: "new Course created successfully", data: newCourse });
+        yield newCourse.save();
+        return res.status(201).json({ message: "Course created successfully", data: newCourse });
     }
-    catch (e) {
-        console.error(e.message);
-        return res.status(500).json({ message: "Internal server error while adding course" });
+    catch (error) {
+        console.error("Error adding course:", error);
+        if (error.name === 'ValidationError') {
+            // Mongoose validation error
+            return res.status(400).json({ message: "Validation error", errors: error.errors });
+        }
+        return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 });
 exports.AddCourse = AddCourse;
@@ -49,7 +66,7 @@ const UpdateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (!course) {
             return res.status(401).json({ message: "course not found" });
         }
-        const { title, description, price, published, imageUrl, original_price, discount_price, discount } = req.body;
+        const { title, description, price, published, imageUrl, original_price, discount_price, discount, } = req.body;
         let updatedImageUrl = imageUrl;
         if (imageUrl) {
             const uploadRes = yield Cloudinary_1.default.uploader.upload(imageUrl);
@@ -63,10 +80,12 @@ const UpdateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             description,
             price,
             published,
-            imageUrl: updatedImageUrl
+            imageUrl: updatedImageUrl,
         }, { new: true } // Return the updated document
         );
-        return res.status(200).json({ message: "Course updated successfully", data: updateCourse });
+        return res
+            .status(200)
+            .json({ message: "Course updated successfully", data: updateCourse });
     }
     catch (e) {
         console.error(e.message);

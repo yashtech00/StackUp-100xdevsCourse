@@ -6,35 +6,36 @@ const CourseSchema = new Schema({
     title: {
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
     description: {
-        type: String,
-        required: true,
+        type: [String], // Changed to array of strings
+        required: true
     },
     discount_price: {
         type: String,
-        required: true,
+        required: true
     },
     original_price: {
         type: String,
-        required:true
+        required: true
     },
     discount: {
         type: String,
-        required:true
+        required: true
     },
     published: {
         type: Boolean,
-        default:'false'
+        default: false
     },
     imageUrl: {
-        type:String,
+        type: String,
     },
     createdAt: {
-        type:Date,
+        type: Date,
+        default: Date.now
     }
-})
+});
 
 const CourseModel = mongoose.model("course", CourseSchema);
 

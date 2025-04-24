@@ -29,7 +29,7 @@ const createAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
             return process.exit();
         }
         const hashedPassword = yield bcryptjs_1.default.hash(plainPassword, 10);
-        const admin = new user_1.default({ username: "admin", email, password: hashedPassword, role });
+        const admin = yield user_1.default.create({ username: "admin", email, password: hashedPassword, role });
         yield admin.save();
         console.log("✅ Admin created successfully");
         process.exit();

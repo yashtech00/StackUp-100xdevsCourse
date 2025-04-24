@@ -12,12 +12,12 @@ const CourseSchema = new Schema({
         unique: true
     },
     description: {
-        type: String,
-        required: true,
+        type: [String], // Changed to array of strings
+        required: true
     },
     discount_price: {
         type: String,
-        required: true,
+        required: true
     },
     original_price: {
         type: String,
@@ -29,13 +29,14 @@ const CourseSchema = new Schema({
     },
     published: {
         type: Boolean,
-        default: 'false'
+        default: false
     },
     imageUrl: {
         type: String,
     },
     createdAt: {
         type: Date,
+        default: Date.now
     }
 });
 const CourseModel = mongoose_1.default.model("course", CourseSchema);

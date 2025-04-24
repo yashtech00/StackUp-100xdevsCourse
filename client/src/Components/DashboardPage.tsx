@@ -9,6 +9,10 @@ export interface courseProp {
     description: string,
     price: string,
     imageUrl: string,
+    discount_price:string,
+    discount: string,
+    original_price:string
+    
 }
 
 export const DashboardPage = () => {

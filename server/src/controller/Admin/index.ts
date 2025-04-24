@@ -2,44 +2,58 @@ import { Request, Response } from "express";
 import CourseModel from "../../model/course";
 import cloudinary from "../../lib/Cloudinary";
 
-export const AddCourse = async (req: any, res: any) => {
-  try {
-    const {
-      title,
-      description,
-      price,
-      published,
-      original_price,
-      discount_price,
-      discount,
-    } = req.body;
-    let { imageUrl } = req.body;
+export const AddCourse = async (req:any, res:any) => {
+    try {
+        const {
+            title,
+            description, // Expecting an array of strings or a single string with newline separators
+            original_price,
+            discount_price,
+            discount,
+            published,
+            imageUrl
+        } = req.body;
 
-    if (imageUrl) {
-      const uploadRes = await cloudinary.uploader.upload(imageUrl);
-      imageUrl = uploadRes.secure_url;
+        // If description is a string, split it into an array
+        const descriptionArray = Array.isArray(description)
+        ? description
+        : description.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+      
+
+        let imageUrlToUse = imageUrl;
+        if (imageUrl) {
+            try {
+                const uploadRes = await cloudinary.uploader.upload(imageUrl, {
+                    folder: 'courses', // Optional: organize uploads into folders
+                });
+                imageUrlToUse = uploadRes.secure_url;
+            } catch (uploadError) {
+                console.error("Cloudinary upload error:", uploadError);
+                return res.status(500).json({ message: "Failed to upload image" });
+            }
+        }
+
+        const newCourse = new CourseModel({
+            title,
+            description: descriptionArray,
+            original_price,
+            discount_price,
+            discount,
+            published,
+            imageUrl: imageUrlToUse,
+        });
+
+        await newCourse.save();
+
+        return res.status(201).json({ message: "Course created successfully", data: newCourse });
+    } catch (error:any) {
+        console.error("Error adding course:", error);
+        if (error.name === 'ValidationError') {
+            // Mongoose validation error
+            return res.status(400).json({ message: "Validation error", errors: error.errors });
+        }
+        return res.status(500).json({ message: "Internal server error", error: error.message });
     }
-
-    const newCourse = await CourseModel.create({
-      title,
-      original_price,
-      discount_price,
-      discount,
-      description,
-      price,
-      published,
-      imageUrl,
-    });
-
-    return res
-      .status(200)
-      .json({ message: "new Course created successfully", data: newCourse });
-  } catch (e: any) {
-    console.error(e.message);
-    return res
-      .status(500)
-      .json({ message: "Internal server error while adding course" });
-  }
 };
 
 export const UpdateCourse = async (req: any, res: any) => {

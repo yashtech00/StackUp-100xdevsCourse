@@ -17,7 +17,7 @@ export const CourseCard = ({ course }: { course: courseProp }) => {
                     </div>
                     <div className="px-6 pt-4 pb-2">
                         <span className="inline-block text-white rounded-full px-3 py-1 text-sm font-semibold mr-2">
-                            ₹{course.price}<span className="line-through mx-4 text-stone-500">9999</span>
+                            ₹{course.discount_price}<span className="line-through mx-4 text-stone-500">9999</span>
                         </span>
                     </div>
                     <Link to={`/admin/course/${course._id}`}>
