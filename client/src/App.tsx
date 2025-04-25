@@ -13,7 +13,7 @@ function UserLayout({ children }: { children: React.ReactNode }) {
   return (  
     <div className="flex w-full min-h-screen ">  
       <SideBar /> 
-      <main className='flex-grow p-4 border-4 border-red-400'>
+      <main className='flex-grow p-4 '>
         {children} 
         </main>
     </div>  

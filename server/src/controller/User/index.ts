@@ -1,3 +1,4 @@
+
 import { razorpayInstance } from "../../lib/razorpay";
 import CourseModel from "../../model/course";
 import UserModel from "../../model/user";
@@ -70,7 +71,13 @@ export const Purchase = async (req: any, res: any) => {
 
 export const Payment = async (req: any, res: any) => {
    
-    const { amount, currency } = req.body; 
+    const { amount, currency } = req.body;
+    console.log(amount,currency,"amt,curr,body");
+    
+    if (!amount || !currency) {
+        return res.status(400).json({ message: "Amount and currency are required" });
+    }
+    
     try {
         const options = {
             amount: amount * 100,

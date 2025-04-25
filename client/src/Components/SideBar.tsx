@@ -18,7 +18,7 @@ export const SideBar = () => {
     }
 
     return (
-        <div className="w-64 border-4 border-red-400">
+        <div className="w-64 flex-shrink-0">
             <div className=" sticky border-r-2 border-gray-600 h-screen flex flex-col justify-between">
             <div>
                 <h1 className="font-bold text-2xl border-b border-gray-600 w-full p-4 flex justify-center">100xdevs</h1>

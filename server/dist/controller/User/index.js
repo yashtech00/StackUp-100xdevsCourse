@@ -86,6 +86,10 @@ const Purchase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.Purchase = Purchase;
 const Payment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { amount, currency } = req.body;
+    console.log(amount, currency, "amt,curr,body");
+    if (!amount || !currency) {
+        return res.status(400).json({ message: "Amount and currency are required" });
+    }
     try {
         const options = {
             amount: amount * 100,
