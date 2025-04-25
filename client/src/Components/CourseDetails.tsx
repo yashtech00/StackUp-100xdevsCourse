@@ -12,8 +12,8 @@ export const CourseDetails = () => {
         const handleFetch = async () => {
             try {
                 const res = await axios.get(`http://localhost:8001/user/course/${courseId}`, { withCredentials: true });
-                console.log(res.data.data,"detail course");
-                
+                console.log(res.data.data, "detail course");
+
                 setCourseDetail(Array.isArray(res.data.data) ? res.data.data : [res.data.data]);
             } catch (e: any) {
                 console.error(e.message);
@@ -24,15 +24,16 @@ export const CourseDetails = () => {
 
 
     return (
-        <div>
-            <div>
+        <div className=" ">
+            <div className="">
+            <div className="">
                 {Array.isArray(courseDetail) && courseDetail.map((course) => (
                     <div key={course._id}>
-                        <div className="m-4">
+                        <div className="">
                             <div className="">
                                 {course.title}
                             </div>
-                            <div className="flex">
+                            <div className="">
                                 <div>
                                     {course.description}
                                 </div>
@@ -46,6 +47,7 @@ export const CourseDetails = () => {
                     </div>
                 ))}
             </div>
-        </div>
+            </div>
+            </div>
     )
 }

@@ -1,3 +1,4 @@
+import { razorpayInstance } from "../../lib/razorpay";
 import CourseModel from "../../model/course";
 import UserModel from "../../model/user";
 
@@ -25,6 +26,24 @@ export const CoursePurchased = async (req: any, res: any) => {
     }
 }
 
+
+export const CourseById = async (req: any, res: any) => {
+    try {
+        const { courseId } = req.params;
+        const course = await CourseModel.findOne({_id:courseId});
+        if (!course) {
+            return res.status(404).json({ message: "course not found" });
+        }
+        const user = await UserModel.findOne({ email: req.user.email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json({ message: "fetched course",data:course });
+    } catch (e:any) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while fetching" });
+    }
+}
 export const Purchase = async (req: any, res: any) => {
     try {
         const { courseId } = req.params;
@@ -48,21 +67,19 @@ export const Purchase = async (req: any, res: any) => {
         return res.status(500).json({ message: "course purchased successfully" });
     }
 }
-export const CourseById = async (req: any, res: any) => {
+
+export const Payment = async (req: any, res: any) => {
+   
+    const { amount, currency } = req.body; 
     try {
-        const { courseId } = req.params;
-        const course = await CourseModel.findOne({_id:courseId});
-        if (!course) {
-            return res.status(404).json({ message: "course not found" });
-        }
-        const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        return res.status(200).json({ message: "fetched course",data:course });
+        const options = {
+            amount: amount * 100,
+            currency: currency || "INR"
+        };
+        const order = await razorpayInstance.orders.create(options);
+        res.status(200).json(order);
     } catch (e:any) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error while fetching" });
+        return res.status(500).json({message:"Error creating Razorpay order"})
     }
 }
-

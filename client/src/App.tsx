@@ -1,26 +1,21 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';  
 import Home from './Pages/Home';  
-import { useQuery } from '@tanstack/react-query';  
-import axios from 'axios';  
 import { SideBar } from './Components/SideBar';  
 import Dashboard from './Pages/Dashboard';  
 import Login from './Pages/Login';  
 import Signup from './Pages/Signup';  
-import Course from './Pages/Course';  
-
-// Admin Pages  
+import Course from './Pages/Course';   
 import AdminCourse from './Pages/Admin/AdminCourse';  
-
 import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';  
 import { useAuth } from './hooks';
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
   return (  
-    <div className="flex w-full min-h-screen">  
-      <SideBar />  
-      <main className="flex-grow p-4">  
-        {children}  
-      </main>  
+    <div className="flex w-full min-h-screen ">  
+      <SideBar /> 
+      <main className='flex-grow p-4 border-4 border-red-400'>
+        {children} 
+        </main>
     </div>  
   );  
 }  
@@ -49,10 +44,10 @@ function App() {
 
   return (  
     <BrowserRouter>  
-      <div className="bg-black text-white min-h-screen">  
+      <div className="bg-black text-white ">  
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
-          <Route path="/login" element={<AdminLayout><Login /></AdminLayout>} />  
+          <Route path="/login" element={<Login />} />  
           <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/" />} />
           <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login" />} />  
 

@@ -30,7 +30,7 @@ export const DashboardPage = () => {
     }, [])
 
     return (
-        <div className="w-full">
+        <div className="border-4 border-red-400">
             <div>
                 <h1 className="m-4 font-bold text-3xl">Welcome to 100xdevs Courses</h1>
                 <div className="flex mx-4 w-[95%] mt-8">
@@ -40,7 +40,7 @@ export const DashboardPage = () => {
                     />
                 </div>
                 <div className=" m-2">
-                    <div className="grid grid-cols-3 mt-6 mx-4">
+                    <div className="grid grid-cols-4 mt-6 mx-4 border-4 border-red-400">
                         {course.map((CourseCard) => (
                             <div
                                 key={CourseCard._id}

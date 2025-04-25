@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CourseById = exports.Purchase = exports.CoursePurchased = exports.GetUserCourse = void 0;
+exports.Payment = exports.Purchase = exports.CourseById = exports.CoursePurchased = exports.GetUserCourse = void 0;
+const razorpay_1 = require("../../lib/razorpay");
 const course_1 = __importDefault(require("../../model/course"));
 const user_1 = __importDefault(require("../../model/user"));
 const GetUserCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,6 +41,25 @@ const CoursePurchased = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.CoursePurchased = CoursePurchased;
+const CourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { courseId } = req.params;
+        const course = yield course_1.default.findOne({ _id: courseId });
+        if (!course) {
+            return res.status(404).json({ message: "course not found" });
+        }
+        const user = yield user_1.default.findOne({ email: req.user.email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json({ message: "fetched course", data: course });
+    }
+    catch (e) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while fetching" });
+    }
+});
+exports.CourseById = CourseById;
 const Purchase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { courseId } = req.params;
@@ -64,22 +84,19 @@ const Purchase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Purchase = Purchase;
-const CourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const Payment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { amount, currency } = req.body;
     try {
-        const { courseId } = req.params;
-        const course = yield course_1.default.findOne({ _id: courseId });
-        if (!course) {
-            return res.status(404).json({ message: "course not found" });
-        }
-        const user = yield user_1.default.findOne({ email: req.user.email });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        return res.status(200).json({ message: "fetched course", data: course });
+        const options = {
+            amount: amount * 100,
+            currency: currency || "INR"
+        };
+        const order = yield razorpay_1.razorpayInstance.orders.create(options);
+        res.status(200).json(order);
     }
     catch (e) {
         console.error(e.message);
-        return res.status(500).json({ message: "Internal server error while fetching" });
+        return res.status(500).json({ message: "Error creating Razorpay order" });
     }
 });
-exports.CourseById = CourseById;
+exports.Payment = Payment;

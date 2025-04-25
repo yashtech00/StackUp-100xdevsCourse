@@ -3,6 +3,8 @@ import { CourseDetails } from "../Components/CourseDetails";
 
 export default function Course(){
     return (
-        <CourseDetails/>
+        <div className="bg-red-200">
+            <CourseDetails />
+            </div>
     )
 }

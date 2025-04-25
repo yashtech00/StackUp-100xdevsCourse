@@ -18,30 +18,36 @@ export const SideBar = () => {
     }
 
     return (
-        <div className="sticky w-64">
-            <div className="border-r-2 border-gray-600 h-screen flex flex-col justify-between">
+        <div className="w-64 border-4 border-red-400">
+            <div className=" sticky border-r-2 border-gray-600 h-screen flex flex-col justify-between">
             <div>
                 <h1 className="font-bold text-2xl border-b border-gray-600 w-full p-4 flex justify-center">100xdevs</h1>
                 <div>
-                <ul className="flex flex-col gap-3 mt-4">
+                        <ul className="flex flex-col gap-3 mt-4">
+                            <Link to={"/dashboard"}>
                     <li className="hover:bg-stone-900 hover:rounded-xl hover:py-4 py-4">
                     <div className="flex ml-4">
                         <BookOpen />
                         <span className="ml-6">Courses</span>
                     </div>
-                    </li>
+                                </li>
+                            </Link>
+                            <Link to={"/purchase"}>
                     <li className="hover:bg-stone-900 hover:rounded-xl hover:py-4 py-4">
                     <div className="flex ml-4">
                         <ShoppingCart />
                         <span className="ml-6">Purchased</span>
                     </div>
-                    </li>
+                                </li>
+                            </Link>
+                            <Link to={"/help"}>
                     <li className="hover:bg-stone-900 hover:rounded-xl hover:py-4 py-4">
                     <div className="flex ml-4">
                         <CircleHelp />
                         <span className="ml-6">Help</span>
                     </div>
-                    </li>
+                                </li>
+                                </Link>
                 </ul>
                 </div>
             </div>

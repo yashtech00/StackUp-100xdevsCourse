@@ -40,7 +40,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
   return (
       
       <div className="flex justify-center items-center min-h-screen  text-white">
-          <div className="absolute top-4 left-4 px-10 font-bold text-4xl">
+          <div className="absolute top-4 left-4  font-bold text-4xl">
           100xdevs
         </div>
             <div className="border border-gray-700 rounded-lg shadow-lg p-6 w-full max-w-md ">
