@@ -1,5 +1,5 @@
 
-import { razorpayInstance } from "../../lib/razorpay";
+
 import CourseModel from "../../model/course";
 import UserModel from "../../model/user";
 
@@ -48,6 +48,8 @@ export const CourseById = async (req: any, res: any) => {
 export const Purchase = async (req: any, res: any) => {
     try {
         const { courseId } = req.params;
+        console.log(courseId,"purchase courseId");
+        
         const course = await CourseModel.findById(courseId);
         if (!course) {
             return res.status(404).json({ message: "course not found" });
@@ -69,24 +71,3 @@ export const Purchase = async (req: any, res: any) => {
     }
 }
 
-export const Payment = async (req: any, res: any) => {
-   
-    const { amount, currency } = req.body;
-    console.log(amount,currency,"amt,curr,body");
-    
-    if (!amount || !currency) {
-        return res.status(400).json({ message: "Amount and currency are required" });
-    }
-    
-    try {
-        const options = {
-            amount: amount * 100,
-            currency: currency || "INR"
-        };
-        const order = await razorpayInstance.orders.create(options);
-        res.status(200).json(order);
-    } catch (e:any) {
-        console.error(e.message);
-        return res.status(500).json({message:"Error creating Razorpay order"})
-    }
-}

@@ -16,5 +16,4 @@ router.get("/course", auth_2.default, User_1.GetUserCourse);
 router.get("/course/:courseId", auth_2.default, User_1.CourseById);
 router.get("/purchase", auth_2.default, User_1.CoursePurchased);
 router.post("/purchase/:courseId", auth_2.default, User_1.Purchase);
-router.post("/payment", auth_2.default, User_1.Payment);
 exports.default = router;

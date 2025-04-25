@@ -1,8 +1,9 @@
+import { PurchasePage } from "../Components/Purchase";
 
 export default function Purchased() {
     return (
-        <div>
-            helo purchased
-        </div>
+        <>
+            <PurchasePage/>
+        </>
     )
 }

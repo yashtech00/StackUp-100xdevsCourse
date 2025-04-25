@@ -1,6 +1,6 @@
 import express from "express"
 import { GetMe, Logout, Signin, Signup } from "../controller/User/auth";
-import { CourseById, CoursePurchased, GetUserCourse, Payment, Purchase } from "../controller/User";
+import { CourseById, CoursePurchased, GetUserCourse, Purchase } from "../controller/User";
 import Authenticate from "../middleware/auth";
 
 const router = express.Router();
@@ -16,7 +16,7 @@ router.get("/course/:courseId", Authenticate, CourseById);
 
 router.get("/purchase",Authenticate, CoursePurchased);
 router.post("/purchase/:courseId",Authenticate, Purchase);
-router.post("/payment",Authenticate,Payment)
+
 
 
 export default router;

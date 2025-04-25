@@ -1,16 +1,17 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { courseProp } from "./DashboardPage";
-
-import { BuyNowModel } from "./PurchaseModel";
-
+import { useAuth } from "../hooks";
 
 export const CourseDetails = () => {
     const { courseId } = useParams();
     const [courseDetail, setCourseDetail] = useState<courseProp[]>([]);
     const [isModel, setIsModel] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<courseProp | null>(null);
+    const [purchased, setPurchased] = useState(false);
+
+    const { authUser } = useAuth();
 
     useEffect(() => {
         const handleFetch = async () => {
@@ -26,8 +27,6 @@ export const CourseDetails = () => {
     }, []);
 
     const handleToggle = (course: courseProp) => {
-        console.log("click buy now");
-        
         setSelectedCourse(course);
         setIsModel(true);
     };
@@ -40,11 +39,11 @@ export const CourseDetails = () => {
                         <div className="font-bold text-4xl py-4 bg-blue-500">{course.title}</div>
                         <div className="flex justify-between m-6">
                             <div className="w-[40%]">
-                                <p className="font-semibold text-xl">What y'll learn</p>
+                                <p className="font-semibold text-xl">What you'll learn</p>
                                 <p className="p-4">{course.description}</p>
                             </div>
-                            <div className="mx-4 my-6 border-2 border-stone-900">
-                                <img src={course.imageUrl} style={{ width: '350px', height: '350px' }} alt={course.title} />
+                            <div className="mx-4 my-6 border-2 border-stone-900 rounded-xl">
+                                <img src={course.imageUrl} style={{ width: '350px', height: '350px' }} alt={course.title} className="rounded-xl" />
                                 <div className="p-4">
                                     <p className="text-md text-stone-500">Price</p>
                                     <div className="flex justify-between space-x-2">
@@ -52,10 +51,13 @@ export const CourseDetails = () => {
                                             <span className="text-xl"> ₹{course.discount_price}</span>
                                             <span className="line-through text-stone-500">₹{course.original_price}</span>
                                         </div>
-                                        <span className="space-x-1">{course.discount}<span>%</span> <span>off</span></span>
+                                        <span className="space-x-1">{course.discount}% off</span>
                                     </div>
-                                    <div className="w-full bg-blue-500 flex justify-center py-2 my-2 rounded-lg hover:cursor-pointer" onClick={() => handleToggle(course)}  >
-                                        <button className="font-semibold text-lg" >Buy Now</button>
+                                    <div className="w-full bg-blue-500 flex justify-center py-2 my-2 rounded-lg hover:cursor-pointer" onClick={() => handleToggle(course)} >
+                                    <button className="font-semibold text-lg">
+    {authUser?.purchased?.includes(course._id) ? "Purchased" : "Buy Now"}
+</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -65,8 +67,62 @@ export const CourseDetails = () => {
             </div>
 
             {isModel && selectedCourse && (
-                <BuyNowModel course={selectedCourse} courseId={courseId} />
+                <BuyNowModel
+                    course={selectedCourse}
+                    courseId={courseId}
+                    onClose={() => setIsModel(false)}
+                    onPurchased={() => {
+                        setPurchased(true);
+                        setIsModel(false);
+                    }}
+                />
             )}
+        </div>
+    );
+};
+
+const BuyNowModel = ({
+    course,
+    courseId,
+    onClose,
+    onPurchased
+}: {
+    course: courseProp;
+    courseId: any;
+    onClose: () => void;
+    onPurchased: () => void;
+}) => {
+    const handlePayment = async () => {
+        try {
+            await axios.post(`http://localhost:8001/user/purchase/${courseId}`, {}, { withCredentials: true });
+            onPurchased(); // Update parent state & close modal
+        } catch (e: any) {
+            console.error(e.message);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+            <div className="bg-black border-2 border-stone-900 text-white p-6 rounded-2xl w-full max-w-md shadow-2xl">
+                <div>
+                    <img src={course.imageUrl} alt={course.title} className="w-full h-40 object-cover rounded-md" />
+                    <div className="mt-4">
+                        <p className="text-xl font-semibold">{course.title}</p>
+                        <p className="text-sm text-gray-400 mb-2">Course Summary</p>
+                        <div className="space-y-2 text-sm">
+                            <p><span className="font-medium">Payment currency:</span> INR</p>
+                            <p><span className="font-medium">Price (Including GST):</span> ₹{course.discount_price}</p>
+                            <p><span className="font-bold">Total:</span> ₹{course.discount_price}</p>
+                        </div>
+                    </div>
+                    <div className="w-full bg-blue-500 flex justify-center py-2 mt-4 rounded-lg hover:cursor-pointer hover:bg-blue-600 transition">
+                        <button className="font-semibold text-lg" onClick={handlePayment}>
+                            Buy Now
+                        </button>
+                    </div>
+                    <button onClick={onClose} className="text-sm mt-4 underline hover:text-red-400">Cancel</button>
+                </div>
+            </div>
         </div>
     );
 };

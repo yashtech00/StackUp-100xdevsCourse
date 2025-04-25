@@ -6,6 +6,7 @@ export interface UserProp {
     email: string
     _id: string
     role: string;
+    purchased:string[]
   }
   
 

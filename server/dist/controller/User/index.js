@@ -12,8 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Payment = exports.Purchase = exports.CourseById = exports.CoursePurchased = exports.GetUserCourse = void 0;
-const razorpay_1 = require("../../lib/razorpay");
+exports.Purchase = exports.CourseById = exports.CoursePurchased = exports.GetUserCourse = void 0;
 const course_1 = __importDefault(require("../../model/course"));
 const user_1 = __importDefault(require("../../model/user"));
 const GetUserCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -63,6 +62,7 @@ exports.CourseById = CourseById;
 const Purchase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { courseId } = req.params;
+        console.log(courseId, "purchase courseId");
         const course = yield course_1.default.findById(courseId);
         if (!course) {
             return res.status(404).json({ message: "course not found" });
@@ -84,23 +84,3 @@ const Purchase = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.Purchase = Purchase;
-const Payment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { amount, currency } = req.body;
-    console.log(amount, currency, "amt,curr,body");
-    if (!amount || !currency) {
-        return res.status(400).json({ message: "Amount and currency are required" });
-    }
-    try {
-        const options = {
-            amount: amount * 100,
-            currency: currency || "INR"
-        };
-        const order = yield razorpay_1.razorpayInstance.orders.create(options);
-        res.status(200).json(order);
-    }
-    catch (e) {
-        console.error(e.message);
-        return res.status(500).json({ message: "Error creating Razorpay order" });
-    }
-});
-exports.Payment = Payment;
