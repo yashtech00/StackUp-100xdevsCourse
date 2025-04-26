@@ -1,7 +1,7 @@
 
     export interface CourseModelProps {
         onClose: () => void;
-        onSubmit: (description: string) => void;
+        onSubmit: () => void;
         title: string;
         setTitle: (value: string) => void;
         description: string;
@@ -41,7 +41,7 @@
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            onSubmit(description); // Pass the description to onSubmit
+                            onSubmit(); // Pass the description to onSubmit
                         }}
                         className="space-y-4"
                     >

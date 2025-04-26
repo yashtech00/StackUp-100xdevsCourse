@@ -25,8 +25,15 @@ export const CourseDetail = () => {
             try {
                 const res = await axios.get(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
                 console.log(res, "get detail");
+                const courseData = res.data.data;
+                setCourse(courseData);
 
-                setCourse(res.data.data)
+                setTitle(courseData.title);
+                setDescription(courseData.description)
+
+
+
+
             } catch (e: any) {
                 console.error(e.message);
 
@@ -38,9 +45,14 @@ export const CourseDetail = () => {
 
     const handleEdit = async () => {
         try {
+            const descriptionArray = description
+                .split('\n')
+                .map((point) => point.trim)
+                .filter((point) => point.length > 0);
+
             const res = await axios.put(`http://localhost:8001/admin/course/${courseId}`, {
                 title,
-                description,
+                description:descriptionArray,
                 discount,
                 discount_price,
                 original_price,
