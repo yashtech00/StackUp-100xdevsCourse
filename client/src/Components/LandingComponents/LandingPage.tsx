@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FeatureSection } from "../FeaturePage";
+import { FeatureSection } from "./FeaturePage";
 
 const icons = [
     { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/512px-React-icon.svg.png", top: "20%", left: "15%" },
