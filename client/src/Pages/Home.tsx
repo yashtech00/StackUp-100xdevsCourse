@@ -1,8 +1,14 @@
 
-import { LandingPage } from "../Components/LandingPage";
+import { FeatureSection } from "../Components/FeaturePage";
+import { LandingPage } from "../Components/LandingComponents/LandingPage";
+import { Navbar } from "../Components/Navbar";
 
 export default function Home() {
     return (
-        <LandingPage/>
+        <div>
+            <Navbar/>
+            <LandingPage />
+            <FeatureSection/>
+            </div>
     )
 }

@@ -46,14 +46,15 @@ function App() {
 
   return (  
     <BrowserRouter>  
-      <div className="bg-black text-white ">  
+      <div className="bg-black text-white min-h-screen ">  
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
           <Route path="/login" element={<Login/>}/>  
           <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/"/>} />
           <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login"/>}/>  
 
-          {/* User routes wrapped in UserLayout if authenticated */}  
+          {/* User routes wrapped in UserLayout if authenticated */}
+          
           <Route path="/" element={authUser && !isAdmin ? <UserLayout><Dashboard /></UserLayout> : <Home />} />  
           <Route path="/login" element={!authUser ? <Login/> : <Navigate to="/dashboard"/>} />  
           <Route path="/signup" element={!authUser ? <Signup/> : <Navigate to="/dashboard"/>} />  

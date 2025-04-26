@@ -29,7 +29,10 @@
         return (
             <div>
                 <div className="flex justify-between px-4 py-4 shadow-lg ">
-                    <h1 className="text-3xl font-bold">StackUp</h1>
+                    <div>
+                    <h1 className="text-4xl font-bold">StackUp</h1>
+                        <p className="text-stone-500 ml-6">100xdevs</p>
+                        </div>
                     <div className="flex space-x-4">
                         {!authUser ? (
                             <>

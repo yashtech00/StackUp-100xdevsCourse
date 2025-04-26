@@ -25,10 +25,15 @@ export const PurchasePage = () => {
 
 
     return (
-        <div className="">
+        <div>
+            <div className="m-10"> 
+                <p className="text-3xl font-bold">My Purchases</p>
+            </div>
+        <div className="m-14">
             {purchaseCourses.map((course) => (
                 <GetCourseCard key={course._id} course={course} />
             ))}
-        </div>
+            </div>
+            </div>
     )
 }
