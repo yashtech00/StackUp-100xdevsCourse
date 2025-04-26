@@ -3,7 +3,7 @@ import { Quote } from "../Components/Quote";
 
 export default function Login  () {
     return (
-        <div className="bg-yellow-100 ">
+        <div className=" ">
             <div className="grid grid-cols-2">
                 <div>
                     <Auth type={ "login"} />

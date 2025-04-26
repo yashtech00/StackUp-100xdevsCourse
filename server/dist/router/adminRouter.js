@@ -10,6 +10,6 @@ const router = express_1.default.Router();
 router.get("/AllCourse", auth_1.default, Admin_1.GetCourse);
 router.get("/course/:courseId", auth_1.default, Admin_1.GetCourseById);
 router.post("/course", auth_1.default, Admin_1.AddCourse);
-router.put("/course/:courseId", auth_1.default, Admin_1.UpdateCourse);
+router.patch("/course/:courseId", auth_1.default, Admin_1.UpdateCourse);
 router.delete("/course/:courseId", auth_1.default, Admin_1.DeleteCourse);
 exports.default = router;

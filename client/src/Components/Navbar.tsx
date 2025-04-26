@@ -27,7 +27,7 @@ export const Navbar = () => {
     }
 
     return (
-        <div className="border-b-2 border-stone-900">
+        <div className="border-b-2 border-stone-900 ">
             <div className="flex justify-between px-4 py-4 shadow-lg ">
                 <div>
                     <h1 className="text-4xl font-bold">StackUp</h1>
