@@ -58,6 +58,7 @@ export const CourseDetail = () => {
                 discount_price,
                 original_price,
                 image,
+                published,
             }, { withCredentials: true })
             console.log(res, "edit   ");
             setCourse(res.data.data);

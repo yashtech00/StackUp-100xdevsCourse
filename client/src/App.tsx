@@ -13,9 +13,9 @@ import Help from './Pages/Help';
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
   return (  
-    <div className="flex w-full min-h-screen ">  
+    <div className="relative flex w-full min-h-screen ">  
       <SideBar /> 
-      <main className='flex-grow p-4 '>
+      <main className='flex-grow overflow-y-auto p-4 '>
         {children} 
         </main>
     </div>  

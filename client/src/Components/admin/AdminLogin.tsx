@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks";
+import { useNavigate } from "react-router-dom";
+
 
 export const Auth = ({ type }: { type: "signup" | "login" }) => {
-    const { setAuthUser } = useAuth(); // Use setAuthUser from useAuth
-    const [username, setUsername] = useState("");
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -13,9 +12,9 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
     const handleSubmit = async () => {
         try {
             const res = await axios.post(
-                `http://localhost:8001/user/${type}`,
+                `http://localhost:8001/admin/login`,
                 {
-                    username,
+
                     email,
                     password,
                 },
@@ -23,21 +22,14 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             );
 
             const user = res.data.data;
-            setAuthUser(user); // Set authUser in state
-            localStorage.setItem("authUser", JSON.stringify(user)); // Persist user in localStorage
 
-            setUsername("");
             setEmail("");
             setPassword("");
             console.log(res, "login info");
 
-            // Redirect based on role
-            const role = user?.role;
-            if (role === "admin") {
-                navigate("/admin");
-            } else {
-                navigate("/dashboard");
-            }
+
+            navigate("/admin");
+
         } catch (e: any) {
             console.error(e.message);
         }
@@ -48,7 +40,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             <div className="absolute top-4 left-4 font-bold text-4xl">100xdevs</div>
             <div className="border border-gray-700 rounded-lg shadow-lg p-6 w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-6">
-                    {type === "signup" ? "Signup" : "Login"}
+                    Login
                 </h1>
                 <form
                     className="space-y-4"
@@ -57,18 +49,7 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
                         handleSubmit();
                     }}
                 >
-                    {type === "signup" && (
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Username</label>
-                            <input
-                                className="w-full px-3 py-2 border border-gray-600 rounded-md bg-black text-white"
-                                placeholder="Enter Username"
-                                onChange={(e) => setUsername(e.target.value)}
-                                value={username}
-                                type="text"
-                            />
-                        </div>
-                    )}
+
                     <div>
                         <label className="block text-sm font-medium mb-1">Email</label>
                         <input
@@ -93,21 +74,10 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
                         type="submit"
                         className="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white font-semibold transition duration-200"
                     >
-                        {type === "signup" ? "Sign Up" : "Log In"}
+                        Log In
                     </button>
 
-                    <div className="flex justify-center">
-                        <span>
-                            {type === "signup"
-                                ? "Already have an account,"
-                                : "Don't have an account,"}
-                        </span>
-                        <Link to={type === "signup" ? "/login" : "/signup"}>
-                            <span className="underline mx-1">
-                                {type === "signup" ? "Login" : "Signup"}
-                            </span>
-                        </Link>
-                    </div>
+
                 </form>
             </div>
         </div>

@@ -15,21 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const user_1 = __importDefault(require("../model/user"));
-dotenv_1.default.config();
+const Admin_1 = __importDefault(require("../model/Admin"));
+dotenv_1.default.config({ path: "./src/.env" });
 const createAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
+    const Mongo_Url = process.env.MONGO_URL || "";
+    console.log("MongoDB URL:", Mongo_Url); // Debugging line
     try {
-        yield mongoose_1.default.connect(process.env.MONGO_URL);
+        yield mongoose_1.default.connect(Mongo_Url);
         const email = "yash123@gmail.com";
         const plainPassword = "123456789";
-        const role = "admin";
-        const existing = yield user_1.default.findOne({ email });
+        const existing = yield Admin_1.default.findOne({ email });
         if (existing) {
             console.log("✅ Admin already exists");
             return process.exit();
         }
         const hashedPassword = yield bcryptjs_1.default.hash(plainPassword, 10);
-        const admin = yield user_1.default.create({ username: "admin", email, password: hashedPassword, role });
+        const admin = yield Admin_1.default.create({ email, password: hashedPassword });
         yield admin.save();
         console.log("✅ Admin created successfully");
         process.exit();

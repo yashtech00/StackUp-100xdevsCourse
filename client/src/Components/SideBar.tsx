@@ -1,6 +1,6 @@
-import axios from "axios"
-import { BookOpen, CircleHelp, LogOut, ShoppingCart, User } from "lucide-react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import axios from "axios";
+import { BookOpen, CircleHelp, LogOut, ShoppingCart, User } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks";
 
 export const SideBar = () => {
@@ -19,8 +19,8 @@ export const SideBar = () => {
     };
 
     return (
-        <div className="w-64 flex-shrink-0">
-            <div className="sticky border-r-2 border-gray-600 h-screen flex flex-col justify-between">
+        <div className="w-64 flex-shrink-0 h-screen sticky top-0">
+            <div className="border-r-2 border-gray-600 h-full flex flex-col justify-between">
                 <div>
                     <h1 className="font-bold text-2xl border-b border-gray-600 w-full p-4 flex justify-center">100xdevs</h1>
                     <div>
@@ -56,7 +56,6 @@ export const SideBar = () => {
                     <div className="w-10 h-10 bg-gray-300 rounded-full flex justify-center items-center text-black"><User /></div>
                     <div className="flex-1">
                         <p className="font-semibold text-sm truncate">{authUser?.username || "Guest"}</p>
-                        {/* <p className="text-sm text-gray-400">username</p> */}
                     </div>
                     <LogOut onClick={handleLogout}
                         className="w-5 h-5 text-gray-600 hover:text-red-500 cursor-pointer"
