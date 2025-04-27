@@ -33,23 +33,28 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 function App() {  
   
   const { authUser, isLoading } = useAuth();
+  const isAdmin = authUser?.role === 'admin'; 
+  console.log(isAdmin);
+  
 
-  if (isLoading) {  
+  if (isLoading) { 
+    
     return (  
       <div className="flex justify-center items-center h-screen">  
         Loading...  
-      </div>  
+      </div> 
+      
     );  
   }  
 
-  const isAdmin = authUser?.role === 'admin';  
+  
 
   return (  
     <BrowserRouter>  
       <div className="bg-black text-white min-h-screen ">  
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
-          <Route path="/login" element={<Login/>}/>  
+          <Route path="/login" element={!isAdmin ? <Login/> : <AdminLayout><AdminCourse /></AdminLayout>}/>  
           <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/"/>} />
           <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login"/>}/>  
 

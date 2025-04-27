@@ -14,6 +14,8 @@
         setDiscount: (value: string) => void;
         image: string;
         setImage: (value: string) => void;
+        published: boolean,
+        setPublished: (value: boolean) => void;
     }
 
 
@@ -33,6 +35,8 @@
         setDiscount,
         image,
         setImage,
+        published,
+        setPublished
     }: CourseModelProps) {
         return (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
@@ -104,7 +108,17 @@
                                 placeholder="https://..."
                             />
                         </div>
-                        <div className="flex justify-between mt-6">
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Published</label>
+                            <input
+                                type="checkbox"
+                                checked={published}
+                                onChange={(e) => setPublished(e.target.checked)}
+                                className="w-5 h-5 bg-black border border-stone-900 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                title="Toggle Published Status"
+                                placeholder="Published"
+                            />
+                        </div>      <div className="flex justify-between mt-6">
                             <button
                                 type="button"
                                 onClick={onClose}

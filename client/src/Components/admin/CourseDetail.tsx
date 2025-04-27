@@ -1,5 +1,5 @@
 import axios from "axios"
-import { FormEventHandler, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { courseProp } from "../DashboardPage"
 import { Navbar } from "../Navbar"
@@ -18,6 +18,7 @@ export const CourseDetail = () => {
     const [discount_price, setDiscount_price] = useState("");
     const [discount, setDiscount] = useState("");
     const [image, setImage] = useState("");
+    const [published, setPublished] = useState(false);
 
     useEffect(() => {
         const handleFetch = async () => {
@@ -26,13 +27,18 @@ export const CourseDetail = () => {
                 const res = await axios.get(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
                 console.log(res, "get detail");
                 const courseData = res.data.data;
+                console.log("Fetched course data:", courseData);
+                console.log("Fetched description:", courseData.description);
+
                 setCourse(courseData);
 
                 setTitle(courseData.title);
+                setOriginal_price(courseData.original_price);
+                setDiscount_price(courseData.discount_price);
+                setDiscount(courseData.discount);
+                setImage(courseData.imageUrl);
                 setDescription(courseData.description)
-
-
-
+                setPublished(courseData.published)
 
             } catch (e: any) {
                 console.error(e.message);
@@ -45,14 +51,9 @@ export const CourseDetail = () => {
 
     const handleEdit = async () => {
         try {
-            const descriptionArray = description
-                .split('\n')
-                .map((point) => point.trim)
-                .filter((point) => point.length > 0);
-
-            const res = await axios.put(`http://localhost:8001/admin/course/${courseId}`, {
+            const res = await axios.patch(`http://localhost:8001/admin/course/${courseId}`, {
                 title,
-                description:descriptionArray,
+                description,
                 discount,
                 discount_price,
                 original_price,
@@ -66,6 +67,7 @@ export const CourseDetail = () => {
             setDiscount_price("")
             setImage("")
             setOriginal_price("")
+            setPublished(false)
             setIsModel(false);
         } catch (e: any) {
             console.error(e.message);
@@ -153,6 +155,8 @@ export const CourseDetail = () => {
                     setDiscount={setDiscount}
                     image={image}
                     setImage={setImage}
+                    published={published}
+                    setPublished={setPublished}
                 />
             )}
         </div>

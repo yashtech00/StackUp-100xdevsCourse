@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { CourseModel } from "./CourseModel";
+import { useNavigate } from "react-router-dom";
 
 
 export const AddCourse = () => {
@@ -11,16 +12,19 @@ export const AddCourse = () => {
     const [discount_price, setDiscount_price] = useState("");
     const [discount, setDiscount] = useState("");
     const [image, setImage] = useState("");
+    const [published, setPublished] = useState(false);
+    const navigate = useNavigate();
 
     const handleAdd = async () => {
         try {
             const res = await axios.post(`http://localhost:8001/admin/course`, {
                 title,
-                description, // Send the entire description text
+                description,
                 discount,
                 discount_price,
                 original_price,
-                imageUrl: image, // Corrected property name
+                imageUrl: image,
+                published
             }, { withCredentials: true });
 
             console.log(res, "Course added");
@@ -30,7 +34,10 @@ export const AddCourse = () => {
             setDiscount_price("");
             setImage("");
             setOriginal_price("");
+            setPublished(false);
             setIsModel(false);
+            const courseId = res.data.data._id;
+            navigate(`/course/:${courseId}`);
 
         } catch (e: any) {
             console.error("Error adding course:", e);
@@ -62,6 +69,8 @@ export const AddCourse = () => {
                     setDiscount={setDiscount}
                     image={image}
                     setImage={setImage}
+                    published={published}
+                    setPublished = {setPublished}
                 />
             )}
         </div>
