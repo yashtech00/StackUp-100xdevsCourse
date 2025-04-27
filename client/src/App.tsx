@@ -10,6 +10,7 @@ import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';
 import { useAuth } from './hooks';
 import Purchased from './Pages/Purchased';
 import Help from './Pages/Help';
+import AdminLogin from './Pages/Admin/AdminAuth';
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
   return (  
@@ -33,9 +34,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 function App() {  
   
   const { authUser, isLoading } = useAuth();
-  const isAdmin = authUser?.role === 'admin'; 
-  console.log(isAdmin);
-  
+ 
 
   if (isLoading) { 
     
@@ -54,19 +53,19 @@ function App() {
       <div className="bg-black text-white min-h-screen ">  
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
-          <Route path="/login" element={!isAdmin ? <Login/> : <AdminLayout><AdminCourse /></AdminLayout>}/>  
-          <Route path="/admin" element={isAdmin ? <AdminLayout><AdminCourse /></AdminLayout> : <Navigate to="/"/>} />
-          <Route path="/admin/course/:courseId" element={isAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/login"/>}/>  
+          <Route path="/login" element={<AdminLogin />} />  
+          <Route path="/admin" element={<AdminLayout><AdminCourse /></AdminLayout>} />
+          <Route path="/admin/course/:courseId" element={<AdminLayout><AdminDetailCourse /></AdminLayout>}/>  
 
           {/* User routes wrapped in UserLayout if authenticated */}
           
-          <Route path="/" element={authUser && !isAdmin ? <UserLayout><Dashboard /></UserLayout> : <Home />} />  
+          <Route path="/" element={authUser  ? <UserLayout><Dashboard /></UserLayout> : <Home />} />  
           <Route path="/login" element={!authUser ? <Login/> : <Navigate to="/dashboard"/>} />  
           <Route path="/signup" element={!authUser ? <Signup/> : <Navigate to="/dashboard"/>} />  
-          <Route path="/dashboard" element={authUser && !isAdmin ? <UserLayout><Dashboard/></UserLayout> : <Navigate to="/"/>} />  
-          <Route path="/purchase" element={authUser && !isAdmin ? <UserLayout><Purchased/></UserLayout> : <Navigate to="/"/>} /> 
-          <Route path="/help" element={authUser && !isAdmin ? <UserLayout><Help/></UserLayout> : <Navigate to="/" />}/> 
-          <Route path="/course/:courseId" element={authUser && !isAdmin ? <UserLayout><Course/></UserLayout> : <Navigate to="/"/>} />  
+          <Route path="/dashboard" element={authUser  ? <UserLayout><Dashboard/></UserLayout> : <Navigate to="/"/>} />  
+          <Route path="/purchase" element={authUser  ? <UserLayout><Purchased/></UserLayout> : <Navigate to="/"/>} /> 
+          <Route path="/help" element={authUser  ? <UserLayout><Help/></UserLayout> : <Navigate to="/" />}/> 
+          <Route path="/course/:courseId" element={authUser  ? <UserLayout><Course/></UserLayout> : <Navigate to="/"/>} />  
         </Routes>  
       </div>  
     </BrowserRouter>  

@@ -23,11 +23,6 @@ const userSchema = new Schema({
             type: mongoose_1.default.Schema.Types.ObjectId,
             ref: "course"
         }],
-    role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-    }
 });
 const UserModel = mongoose_1.default.model("User", userSchema);
 exports.default = UserModel;

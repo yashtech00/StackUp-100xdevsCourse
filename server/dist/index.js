@@ -24,7 +24,6 @@ app.use((0, cookie_parser_1.default)());
 const PORT = process.env.PORT || 8001;
 app.use("/user", userRouter_1.default);
 app.use("/admin", adminRouter_1.default);
-console.log("hello");
 app.listen(PORT, () => {
     console.log(`Server is connected to ${PORT}`);
 });

@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const Admin_1 = __importDefault(require("../model/Admin"));
-dotenv_1.default.config({ path: "./src/.env" });
 const createAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
     const Mongo_Url = process.env.MONGO_URL || "";
     console.log("MongoDB URL:", Mongo_Url); // Debugging line

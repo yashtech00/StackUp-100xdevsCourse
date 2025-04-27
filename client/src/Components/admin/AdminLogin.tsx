@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-export const Auth = ({ type }: { type: "signup" | "login" }) => {
+export const AdminAuth = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
