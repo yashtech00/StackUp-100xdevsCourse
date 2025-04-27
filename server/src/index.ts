@@ -23,7 +23,6 @@ const PORT = process.env.PORT || 8001
 
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
-console.log("hello")
 
 app.listen(PORT, () => {
     console.log(`Server is connected to ${PORT}`)   

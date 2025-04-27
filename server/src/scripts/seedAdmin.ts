@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+dotenv.config();
 import bcrypt from "bcryptjs";
 
 import AdminModel from "../model/Admin";
 
-dotenv.config({ path: "./src/.env" });
+
 
 const createAdmin = async () => {
   const Mongo_Url = process.env.MONGO_URL || "";
