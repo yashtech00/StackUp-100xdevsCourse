@@ -1,4 +1,4 @@
-import { CourseDetail } from "../../Components/admin/CourseDetail";
+import { CourseDetail } from "../../components/admin/CourseDetail";
 
 export default function AdminDetailCourse() {
     return (

@@ -37,7 +37,7 @@ export const AddCourse = () => {
             setPublished(false);
             setIsModel(false);
             const courseId = res.data.data._id;
-            navigate(`/course/:${courseId}`);
+            navigate(`/admin/course/${courseId}`);
 
         } catch (e: any) {
             console.error("Error adding course:", e);

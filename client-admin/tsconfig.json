@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "../client-admin/src/components/admin", "../client-admin/src/hooks/AdminIndex.tsx", "../client-admin/src/pages/Admin"  ]
+  ]
 }

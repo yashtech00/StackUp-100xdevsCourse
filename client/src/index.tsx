@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './hooks';
-import { AdminAuthProvider } from './hooks/AdminIndex';
+
 
 
 
@@ -19,9 +19,9 @@ root.render(
   <React.StrictMode>
     
     <AuthProvider>
-      <AdminAuthProvider>
+      
         <App />
-        </AdminAuthProvider>
+       
     </AuthProvider>
     
       

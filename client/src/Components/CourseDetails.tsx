@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { courseProp } from "./DashboardPage";
+import { UsercourseProp } from "./DashboardPage";
 import { useAuth } from "../hooks";
 
 export const CourseDetails = () => {
     const { courseId } = useParams();
-    const [courseDetail, setCourseDetail] = useState<courseProp[]>([]);
+    const [courseDetail, setCourseDetail] = useState<UsercourseProp[]>([]);
     const [isModel, setIsModel] = useState(false);
-    const [selectedCourse, setSelectedCourse] = useState<courseProp | null>(null);
+    const [selectedCourse, setSelectedCourse] = useState<UsercourseProp | null>(null);
     const [purchased, setPurchased] = useState(false);
 
     const { authUser } = useAuth();
@@ -26,7 +26,7 @@ export const CourseDetails = () => {
         handleFetch();
     }, []);
 
-    const handleToggle = (course: courseProp) => {
+    const handleToggle = (course: UsercourseProp) => {
         setSelectedCourse(course);
         setIsModel(true);
     };
@@ -87,7 +87,7 @@ const BuyNowModel = ({
     onClose,
     onPurchased
 }: {
-    course: courseProp;
+    course: UsercourseProp;
     courseId: any;
     onClose: () => void;
     onPurchased: () => void;

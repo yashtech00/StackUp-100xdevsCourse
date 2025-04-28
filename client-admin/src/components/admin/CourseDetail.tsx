@@ -1,9 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { courseProp } from "../DashboardPage"
-import { Navbar } from "../Navbar"
+import { courseProp } from "../../hooks/AdminIndex"
 import { CourseModel } from "./CourseModel"
+import { AdminNavbar } from "./Navbar"
 
 export const CourseDetail = () => {
 
@@ -90,7 +90,7 @@ export const CourseDetail = () => {
 
     return (
         <div className="">
-            <Navbar />
+            
             <div className="max-w-7xl mx-auto px-4 py-10 space-y-8">
                 <div className="flex justify-end gap-6">
                     <button

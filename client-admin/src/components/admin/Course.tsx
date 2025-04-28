@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { courseProp } from "../DashboardPage"
+import { courseProp } from "../../../../client/src/Components/DashboardPage"
 import axios from "axios";
 import { CourseCard } from "./CourseCard";
-import { Navbar } from "../Navbar";
+import { Navbar } from "../../../../client/src/Components/Navbar";
 import { AddCourse } from "./AddCourse";
 
 export const Course = () => {

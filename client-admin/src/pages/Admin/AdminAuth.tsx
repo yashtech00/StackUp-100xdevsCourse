@@ -1,4 +1,4 @@
-import { AdminAuth } from "../../Components/admin/AdminLogin";
+import { AdminAuth } from "../../components/admin/AdminLogin";
 
 export default function AdminLogin() {
     return (

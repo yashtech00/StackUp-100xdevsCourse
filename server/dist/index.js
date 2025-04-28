@@ -13,7 +13,7 @@ const adminRouter_1 = __importDefault(require("./router/adminRouter"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ['https://tweetify-tau.vercel.app', 'http://localhost:3000'],
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true,
 };
 app.use((0, cors_1.default)(corsOptions));

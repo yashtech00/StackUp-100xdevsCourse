@@ -6,7 +6,18 @@ export interface AdminProp {
     email: string
     _id: string
    
-  }
+}
+export interface courseProp {
+    _id: string,
+    title: string,
+    description: string,
+    price: string,
+    imageUrl: string,
+    discount_price: string,
+    discount: string,
+    original_price: string
+
+}
   
 
 interface AuthContextProp{

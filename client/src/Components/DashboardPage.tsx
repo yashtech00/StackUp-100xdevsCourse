@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { GetCourseCard } from "./GetCourseCard";
 
 
-export interface courseProp {
+export interface UsercourseProp {
     _id: string,
     title: string,
     description: string,
@@ -16,7 +16,7 @@ export interface courseProp {
 }
 
 export const DashboardPage = () => {
-    const [course, setCourse] = useState<courseProp[]>([]);
+    const [course, setCourse] = useState<UsercourseProp[]>([]);
 
 
     useEffect(() => {

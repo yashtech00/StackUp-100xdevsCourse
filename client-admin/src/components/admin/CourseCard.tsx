@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { courseProp } from "../DashboardPage";
+import { courseProp } from "../../hooks/AdminIndex";
 import axios from "axios";
 import { useState } from "react";
 
