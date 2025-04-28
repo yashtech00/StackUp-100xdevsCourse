@@ -37,13 +37,21 @@ export const CourseDetails = () => {
                 {courseDetail.map((course) => (
                     <div key={course._id} className="m-4">
                         <div className="font-bold text-4xl py-4 bg-blue-500">{course.title}</div>
-                        <div className="flex justify-between m-6">
-                            <div className="w-[40%]">
+                        <div className="flex justify-between m-6 rounded-xl border-2 border-stone-900">
+                            <div className="w-[40%] m-8">
                                 <p className="font-semibold text-xl">What you'll learn</p>
-                                <p className="p-4">{course.description}</p>
+                                <ul className="list-disc pl-5 space-y-2">
+                                        {Array.isArray(course.description) ? (
+                                            course.description.map((item, index) => (
+                                                <li key={index} className="text-md">{item}</li>
+                                            ))
+                                        ) : (
+                                            <li className="text-md">{course.description}</li>
+                                        )}
+                                    </ul>
                             </div>
-                            <div className="mx-4 my-6 border-2 border-stone-900 rounded-xl">
-                                <img src={course.imageUrl} style={{ width: '350px', height: '350px' }} alt={course.title} className="rounded-xl" />
+                            <div className="mx-4 my-6 border-2 border-stone-900 rounded-xl h-full flex flex-col justify-between">
+                                <img src={course.imageUrl} alt={course.title} className="rounded-xl w-[350px] h-[350px]" />
                                 <div className="p-4">
                                     <p className="text-md text-stone-500">Price</p>
                                     <div className="flex justify-between space-x-2">
@@ -54,9 +62,9 @@ export const CourseDetails = () => {
                                         <span className="space-x-1">{course.discount}% off</span>
                                     </div>
                                     <div className="w-full bg-blue-500 flex justify-center py-2 my-2 rounded-lg hover:cursor-pointer" onClick={() => handleToggle(course)} >
-                                    <button className="font-semibold text-lg">
-    {authUser?.purchased?.includes(course._id) ? "Purchased" : "Buy Now"}
-</button>
+                                        <button type="button" className="font-semibold text-lg">
+                                            {authUser?.purchased?.includes(course._id) ? "Purchased" : "Buy Now"}
+                                        </button>
 
                                     </div>
                                 </div>
