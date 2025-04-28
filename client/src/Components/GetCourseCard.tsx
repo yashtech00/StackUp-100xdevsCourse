@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { courseProp } from "./DashboardPage"
+import { UsercourseProp } from "./DashboardPage"
 
-export const GetCourseCard = ({ course }: { course: courseProp }) => {
+export const GetCourseCard = ({ course }: { course: UsercourseProp }) => {
 
     return (
+        <div>
+            <div>
         <div className="max-w-xs rounded-xl  overflow-hidden  border-2 border-stone-900">
             <img className="w-full h-48 object-cover" src={course.imageUrl} alt={course.title} />
             <div className="px-6 py-4">
@@ -26,6 +28,8 @@ export const GetCourseCard = ({ course }: { course: courseProp }) => {
                     <button className="flex justify-center bg-blue-600 w-full mx-2 py-2 rounded-2xl" >View Details</button>
                 </div>
             </Link>
+            </div>
+        </div>
         </div>
     );
 };

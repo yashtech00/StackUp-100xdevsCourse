@@ -24,18 +24,18 @@ export const AdminNavbar = () => {
                     <h1 className="text-4xl font-bold">StackUp</h1>
                     <p className="text-stone-500 ml-6">100xdevs</p>
                 </div>
-                {authAdmin ? (
+                {!authAdmin ? (
                     
                         <div>
                             <Link to={"/AdminLogin"}>
 
-                                <button className="px-4 py-2 bg-black text-white rounded-lg" >Login</button>
+                                <button className="px-6 py-6 bg-black text-white rounded-lg hover:bg-stone-900" >Login</button>
                             </Link>
                         </div>
                     
                 ) : (
                     <div>
-                        <button className="px-4 py-2 bg-black text-white rounded-lg" onClick={handleLogout}>Logout</button>
+                        <button className="px-6 py-6 bg-black text-white rounded-lg hover:bg-stone-900" onClick={handleLogout}>Logout</button>
                     </div>
                 )}
 

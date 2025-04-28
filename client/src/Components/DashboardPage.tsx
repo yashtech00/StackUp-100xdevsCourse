@@ -31,16 +31,18 @@ export const DashboardPage = () => {
 
     return (
         <div className="">
-            <div>
+            <div className="">
+                <div>
                 <h1 className="m-4 font-bold text-3xl">Welcome to 100xdevs Courses</h1>
                 <div className="flex mx-4 w-[95%] mt-8">
                     <input
                         placeholder="Search"
                         className="w-full bg-black border-2 px-4 py-2 rounded-2xl border-stone-900"
                     />
-                </div>
+                    </div>
+                    </div>
                 <div className=" m-2">
-                    <div className="grid grid-cols-4 mt-6 mx-4">
+                    <div className="grid grid-cols-3 mt-6 mx-4 ">
                         {course.map((CourseCard) => (
                             <div
                                 key={CourseCard._id}

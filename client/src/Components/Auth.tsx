@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks";
 
 export const Auth = ({ type }: { type: "signup" | "login" }) => {
-    const { setAuthUser } = useAuth(); // Use setAuthUser from useAuth
+    const { setAuthUser } = useAuth(); 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,21 +23,14 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
             );
 
             const user = res.data.data;
-            setAuthUser(user); // Set authUser in state
-            localStorage.setItem("authUser", JSON.stringify(user)); // Persist user in localStorage
+            setAuthUser(user); 
+            
 
             setUsername("");
             setEmail("");
             setPassword("");
             console.log(res, "login info");
-
-            // Redirect based on role
-            const role = user?.role;
-            if (role === "admin") {
-                navigate("/admin");
-            } else {
                 navigate("/dashboard");
-            }
         } catch (e: any) {
             console.error(e.message);
         }

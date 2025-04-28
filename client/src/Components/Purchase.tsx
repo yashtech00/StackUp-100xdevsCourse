@@ -1,13 +1,13 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { courseProp } from "./DashboardPage"
+import { UsercourseProp } from "./DashboardPage"
 import { GetCourseCard } from "./GetCourseCard";
 
 
 
 export const PurchasePage = () => {
 
-    const [purchaseCourses, setPurchaseCourses] = useState<courseProp[]>([]);
+    const [purchaseCourses, setPurchaseCourses] = useState<UsercourseProp[]>([]);
 
     useEffect(() => {
         const handleFetch = async () => {
