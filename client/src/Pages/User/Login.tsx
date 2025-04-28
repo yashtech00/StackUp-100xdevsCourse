@@ -1,5 +1,5 @@
-import { Auth } from "../Components/Auth";
-import { Quote } from "../Components/Quote";
+import { Auth } from "../../Components/Auth";
+import { Quote } from "../../Components/Quote";
 
 export default function Login  () {
     return (

@@ -26,7 +26,6 @@ export const Course = () => {
 
     return (
         <div className="">
-            <Navbar />
             <div className="m-10">
             <div className="flex justify-between">
                 <div className="font-bold text-xl">Admin Panel</div>

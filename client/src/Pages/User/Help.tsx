@@ -1,4 +1,4 @@
-import { HelpPage } from "../Components/HelpPage";
+import { HelpPage } from "../../Components/HelpPage";
 
 export default function Help() {
     return (

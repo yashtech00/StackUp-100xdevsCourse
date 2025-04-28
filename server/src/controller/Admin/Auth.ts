@@ -28,3 +28,23 @@ export const AdminLogin = async(req:any,res:any) => {
         return res.json({ message: "Internal server error while SignIn" }, { status: 500 });
     }
 }
+
+export const GetMe = async (req: any, res: any)=>{
+    try {
+        const admin = await AdminModel.findById(req.user._id).select("-password");
+        return res.status(200).json({ message: "me got this", data: admin });
+    } catch (e:any) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while fetch admin details" });
+    }
+}
+
+export const Logout = async (req: any, res: any) => {
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });
+        res.status(200).json({ message: "Logout Successfully" });
+    } catch (e:any) {
+        console.error(e.message);
+        return res.status(500).json({ message: "Internal server error while logout" });
+    }
+}

@@ -1,4 +1,4 @@
-import { PurchasePage } from "../Components/Purchase";
+import { PurchasePage } from "../../Components/Purchase";
 
 export default function Purchased() {
     return (

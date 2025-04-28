@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAdminAuth } from "../../hooks/AdminIndex";
 
 
 export const AdminAuth = () => {
@@ -8,25 +9,24 @@ export const AdminAuth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { setAuthAdmin } = useAdminAuth();
+
 
     const handleSubmit = async () => {
         try {
             const res = await axios.post(
                 `http://localhost:8001/admin/login`,
                 {
-
                     email,
                     password,
                 },
                 { withCredentials: true }
             );
 
-            const user = res.data.data;
-
             setEmail("");
             setPassword("");
-            console.log(res, "login info");
-
+            console.log(res, "Admin login info");
+            setAuthAdmin(res.data.data);
 
             navigate("/admin");
 

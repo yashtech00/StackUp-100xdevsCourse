@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-    origin: ['https://tweetify-tau.vercel.app', 'http://localhost:3000'],
+    origin: [ 'http://localhost:3000'],
     credentials: true,
   };
 app.use(cors(corsOptions));

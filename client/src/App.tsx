@@ -1,16 +1,17 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';  
-import Home from './Pages/Home';  
+import Home from './Pages/User/Home';  
 import { SideBar } from './Components/SideBar';  
-import Dashboard from './Pages/Dashboard';  
-import Login from './Pages/Login';  
-import Signup from './Pages/Signup';  
-import Course from './Pages/Course';   
+import Dashboard from './Pages/User/Dashboard';  
+import Login from './Pages/User/Login';  
+import Signup from './Pages/User/Signup';  
+import Course from './Pages/User/Course';   
 import AdminCourse from './Pages/Admin/AdminCourse';  
 import AdminDetailCourse from './Pages/Admin/AdminDetailCourse';  
 import { useAuth } from './hooks';
-import Purchased from './Pages/Purchased';
-import Help from './Pages/Help';
+import Purchased from './Pages/User/Purchased';
+import Help from './Pages/User/Help';
 import AdminLogin from './Pages/Admin/AdminAuth';
+import { useAdminAuth } from './hooks/AdminIndex';
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
   return (  
@@ -34,6 +35,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 function App() {  
   
   const { authUser, isLoading } = useAuth();
+  const { authAdmin } = useAdminAuth();
  
 
   if (isLoading) { 
@@ -53,9 +55,9 @@ function App() {
       <div className="bg-black text-white min-h-screen ">  
         <Routes>  
           {/* Admin Routes wrapped in AdminLayout */}  
-          <Route path="/login" element={<AdminLogin />} />  
-          <Route path="/admin" element={<AdminLayout><AdminCourse /></AdminLayout>} />
-          <Route path="/admin/course/:courseId" element={<AdminLayout><AdminDetailCourse /></AdminLayout>}/>  
+          <Route path="/AdminLogin" element={<AdminLogin />  } />  
+          <Route path="/admin" element={authAdmin ? <AdminLayout><AdminCourse /></AdminLayout> :<Navigate to="/"/> } />
+          <Route path="/admin/course/:courseId" element={authAdmin ? <AdminLayout><AdminDetailCourse /></AdminLayout> : <Navigate to="/dashboard"/>}/>  
 
           {/* User routes wrapped in UserLayout if authenticated */}
           
