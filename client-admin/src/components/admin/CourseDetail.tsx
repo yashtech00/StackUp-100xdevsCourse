@@ -19,12 +19,13 @@ export const CourseDetail = () => {
     const [discount, setDiscount] = useState("");
     const [image, setImage] = useState("");
     const [published, setPublished] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const handleFetch = async () => {
 
             try {
-                const res = await axios.get(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/admin/course/${courseId}`, { withCredentials: true });
                 console.log(res, "get detail");
                 const courseData = res.data.data;
                 console.log("Fetched course data:", courseData);
@@ -51,7 +52,7 @@ export const CourseDetail = () => {
 
     const handleEdit = async () => {
         try {
-            const res = await axios.patch(`http://localhost:8001/admin/course/${courseId}`, {
+            const res = await axios.patch(`${Backend_Url}/admin/course/${courseId}`, {
                 title,
                 description,
                 discount,
@@ -77,7 +78,7 @@ export const CourseDetail = () => {
 
     const handleDelete = async () => {
         try {
-            const res = await axios.delete(`http://localhost:8001/admin/course/${courseId}`, { withCredentials: true });
+            const res = await axios.delete(`${Backend_Url}/admin/course/${courseId}`, { withCredentials: true });
             navigate("/admin")
         } catch (e: any) {
             console.error(e.message);

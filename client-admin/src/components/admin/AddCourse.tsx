@@ -14,10 +14,11 @@ export const AddCourse = () => {
     const [image, setImage] = useState("");
     const [published, setPublished] = useState(false);
     const navigate = useNavigate();
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     const handleAdd = async () => {
         try {
-            const res = await axios.post(`http://localhost:8001/admin/course`, {
+            const res = await axios.post(`${Backend_Url}/admin/course`, {
                 title,
                 description,
                 discount,

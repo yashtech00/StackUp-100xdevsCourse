@@ -9,12 +9,13 @@ export const Auth = ({ type }: { type: "signup" | "login" }) => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     const handleSubmit = async () => {
         try {
             const res = await axios.post(
-                `http://localhost:8001/user/${type}`,
+                `${Backend_Url}/user/${type}`,
                 {
                     username,
                     email,

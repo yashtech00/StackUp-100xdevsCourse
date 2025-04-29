@@ -10,12 +10,13 @@ export const AdminAuth = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { setAuthAdmin } = useAdminAuth();
-
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
+   
 
     const handleSubmit = async () => {
         try {
             const res = await axios.post(
-                `http://localhost:8001/admin/login`,
+                `${Backend_Url}/admin/login`,
                 {
                     email,
                     password,

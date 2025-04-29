@@ -6,6 +6,7 @@ export const Navbar = () => {
 
     const { authUser, setAuthUser, isLoading } = useAuth();
     const navigate = useNavigate();
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     if (isLoading) {
         return (
@@ -18,7 +19,7 @@ export const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            const res = await axios.post("http://localhost:8001/user/logout", {}, { withCredentials: true });
+            const res = await axios.post(`${Backend_Url}/user/logout`, {}, { withCredentials: true });
             setAuthUser(null);
             navigate("/", { replace: true });
         } catch (e: any) {

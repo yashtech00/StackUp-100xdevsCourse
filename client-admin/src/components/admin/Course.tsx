@@ -8,11 +8,11 @@ import { AddCourse } from "./AddCourse";
 export const Course = () => {
 
     const [course, setCourse] = useState<courseProp[]>([]);
-
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
     useEffect(() => {
         const handleFetch = async () => {
             try {
-                const res = await axios.get("http://localhost:8001/admin/AllCourse", { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/admin/AllCourse`, { withCredentials: true });
                 console.log(res, "admin course");
                 setCourse(res.data.data);
             } catch (e: any) {

@@ -6,10 +6,11 @@ export const AdminNavbar = () => {
 
     const navigate = useNavigate();
     const { authAdmin, setAuthAdmin } = useAdminAuth();
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     const handleLogout = async () => {
         try {
-            const res = await axios.post("http://localhost:8001/admin/logout", {}, { withCredentials: true });
+            const res = await axios.post(`${Backend_Url}/admin/logout`, {}, { withCredentials: true });
             setAuthAdmin(null);
             navigate("/", { replace: true });
         } catch (e: any) {

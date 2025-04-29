@@ -50,6 +50,7 @@ function App() {
           <Route path="/help" element={authUser  ? <UserLayout><Help/></UserLayout> : <Navigate to="/" />}/> 
           <Route path="/course/:courseId" element={authUser  ? <UserLayout><Course/></UserLayout> : <Navigate to="/"/>} />  
         </Routes> 
+        <Toaster position='top-center'/>
        
       </div>  
       

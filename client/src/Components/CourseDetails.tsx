@@ -11,13 +11,14 @@ export const CourseDetails = () => {
     const [isModel, setIsModel] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState<UsercourseProp | null>(null);
     const [purchased, setPurchased] = useState(false);
+    const Backend_Url = process.env.BACKEND_URL;
 
     const { authUser } = useAuth();
 
     useEffect(() => {
         const handleFetch = async () => {
             try {
-                const res = await axios.get(`http://localhost:8001/user/course/${courseId}`, { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/user/course/${courseId}`, { withCredentials: true });
                 const data = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
                 setCourseDetail(data);
             } catch (e: any) {
@@ -119,12 +120,13 @@ const BuyNowModel = ({
     onPurchased: () => void;
 }) => {
     const [loading, setLoading] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     const handlePayment = async () => {
         setLoading(true);
         try {
             await new Promise((resolve) => setTimeout(resolve, 2000)); // simulate delay
-            await axios.post(`http://localhost:8001/user/purchase/${courseId}`, {}, { withCredentials: true });
+            await axios.post(`${Backend_Url}/user/purchase/${courseId}`, {}, { withCredentials: true });
             onPurchased(); // Update frontend after success
             toast.success("Course Purchased Successfully");
         } catch (e: any) {

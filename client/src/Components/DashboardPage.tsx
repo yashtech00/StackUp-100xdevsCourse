@@ -18,10 +18,11 @@ export const DashboardPage = () => {
     const [search, setSearch] = useState("");
     const [FilteredCourse, setFilteredCourse] = useState<UsercourseProp[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const handleFetch = async () => {
-            const res = await axios("http://localhost:8001/user/course", { withCredentials: true })
+            const res = await axios(`${Backend_Url}/user/course`, { withCredentials: true })
             setCourse(res.data.data);
         }
         handleFetch();

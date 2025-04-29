@@ -7,11 +7,12 @@ import toast from "react-hot-toast";
 export const SideBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { authUser,setAuthUser } = useAuth();
+    const { authUser, setAuthUser } = useAuth();
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     const handleLogout = async () => {
         try {
-            const res = await axios.post("http://localhost:8001/user/logout", {}, { withCredentials: true });
+            const res = await axios.post(`${Backend_Url}/user/logout`, {}, { withCredentials: true });
             console.log(res.status, "logout");
             setAuthUser(null)
             navigate("/");

@@ -33,11 +33,12 @@ export const AdminAuthProvider = ({children}:{children:React.ReactNode}) => {
 
     const [authAdmin,setAuthAdmin] = useState<AdminProp | null>(null)
     const [isLoading, setIsLoading] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await axios.get("http://localhost:8001/admin/me", { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/admin/me`, { withCredentials: true });
                 console.log(res,"admin me log");
                 setAuthAdmin(res.data.data);
               

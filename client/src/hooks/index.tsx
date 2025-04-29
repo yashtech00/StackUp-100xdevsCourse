@@ -23,11 +23,12 @@ export const AuthProvider = ({children}:{children:React.ReactNode}) => {
 
     const [authUser,setAuthUser] = useState<UserProp | null>(null)
     const [isLoading, setIsLoading] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const fetch = async () => {
             try {
-                const res = await axios.get("http://localhost:8001/user/me", { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/user/me`, { withCredentials: true });
                 console.log(res,"me log");
                 setAuthUser(res.data.data);
               

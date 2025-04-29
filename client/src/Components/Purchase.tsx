@@ -9,12 +9,13 @@ export const PurchasePage = () => {
 
     const [purchaseCourses, setPurchaseCourses] = useState<UsercourseProp[]>([]);
     const [loading, setLoading] = useState(false);
+    const Backend_Url = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const handleFetch = async () => {
             try {
                 setLoading(true)
-                const res = await axios.get("http://localhost:8001/user/purchase", { withCredentials: true });
+                const res = await axios.get(`${Backend_Url}/user/purchase`, { withCredentials: true });
                 console.log(res, "purchase");
                 setPurchaseCourses(res.data.data.purchased);
                 setTimeout(() => { setLoading(false) }, 1000)
