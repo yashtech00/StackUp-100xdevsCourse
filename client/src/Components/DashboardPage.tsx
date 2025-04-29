@@ -34,8 +34,8 @@ export const DashboardPage = () => {
                 item.title.toLowerCase().includes(search.toLowerCase())
             );
             setFilteredCourse(filtered);
-            setTimeout(() => setIsLoading(false), 2000); // Delay to show the spinner
-        }, 1000);
+            setTimeout(() => setIsLoading(false), 1000); // Delay to show the spinner
+        });
 
         return () => clearTimeout(timeoutId); // Cleanup timeout on search change
     }, [search, course]);

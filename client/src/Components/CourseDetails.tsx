@@ -24,7 +24,7 @@ export const CourseDetails = () => {
             }
         };
         handleFetch();
-    }, []);
+    }, [courseId]);
 
     const handleToggle = (course: UsercourseProp) => {
         setSelectedCourse(course);
@@ -41,14 +41,14 @@ export const CourseDetails = () => {
                             <div className="w-[40%] m-8">
                                 <p className="font-semibold text-xl">What you'll learn</p>
                                 <ul className="list-disc pl-5 space-y-2">
-                                        {Array.isArray(course.description) ? (
-                                            course.description.map((item, index) => (
-                                                <li key={index} className="text-md">{item}</li>
-                                            ))
-                                        ) : (
-                                            <li className="text-md">{course.description}</li>
-                                        )}
-                                    </ul>
+                                    {Array.isArray(course.description) ? (
+                                        course.description.map((item, index) => (
+                                            <li key={index} className="text-md">{item}</li>
+                                        ))
+                                    ) : (
+                                        <li className="text-md">{course.description}</li>
+                                    )}
+                                </ul>
                             </div>
                             <div className="mx-4 my-6 border-2 border-stone-900 rounded-xl h-full flex flex-col justify-between">
                                 <img src={course.imageUrl} alt={course.title} className="rounded-xl w-[350px] h-[350px]" />
@@ -61,11 +61,25 @@ export const CourseDetails = () => {
                                         </div>
                                         <span className="space-x-1">{course.discount}% off</span>
                                     </div>
-                                    <div className="w-full bg-blue-500 flex justify-center py-2 my-2 rounded-lg hover:cursor-pointer" onClick={() => handleToggle(course)} >
-                                        <button type="button" className="font-semibold text-lg">
+                                    <div
+                                        className={`w-full flex justify-center py-2 my-2 rounded-lg ${
+                                            authUser?.purchased?.includes(course._id)
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-blue-500 hover:cursor-pointer"
+                                        }`}
+                                        onClick={() => {
+                                            if (!authUser?.purchased?.includes(course._id)) {
+                                                handleToggle(course);
+                                            }
+                                        }}
+                                    >
+                                        <button
+                                            type="button"
+                                            className="font-semibold text-lg"
+                                            disabled={authUser?.purchased?.includes(course._id)}
+                                        >
                                             {authUser?.purchased?.includes(course._id) ? "Purchased" : "Buy Now"}
                                         </button>
-
                                     </div>
                                 </div>
                             </div>
@@ -80,6 +94,9 @@ export const CourseDetails = () => {
                     courseId={courseId}
                     onClose={() => setIsModel(false)}
                     onPurchased={() => {
+                        if (authUser && selectedCourse) {
+                            authUser.purchased = [...(authUser.purchased || []), selectedCourse._id];
+                        }
                         setPurchased(true);
                         setIsModel(false);
                     }}
@@ -100,12 +117,18 @@ const BuyNowModel = ({
     onClose: () => void;
     onPurchased: () => void;
 }) => {
+    const [loading, setLoading] = useState(false);
+
     const handlePayment = async () => {
+        setLoading(true);
         try {
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // simulate delay
             await axios.post(`http://localhost:8001/user/purchase/${courseId}`, {}, { withCredentials: true });
-            onPurchased(); // Update parent state & close modal
+            onPurchased(); // Update frontend after success
         } catch (e: any) {
             console.error(e.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -124,11 +147,27 @@ const BuyNowModel = ({
                         </div>
                     </div>
                     <div className="w-full bg-blue-500 flex justify-center py-2 mt-4 rounded-lg hover:cursor-pointer hover:bg-blue-600 transition">
-                        <button className="font-semibold text-lg" onClick={handlePayment}>
-                            Buy Now
+                        <button
+                            className="font-semibold text-lg flex items-center gap-2"
+                            onClick={handlePayment}
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <>
+                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                    </svg>
+                                    Processing...
+                                </>
+                            ) : (
+                                "Buy Now"
+                            )}
                         </button>
                     </div>
-                    <button onClick={onClose} className="text-sm mt-4 underline hover:text-red-400">Cancel</button>
+                    <button onClick={onClose} className="text-sm mt-4 underline hover:text-red-400" disabled={loading}>
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>
