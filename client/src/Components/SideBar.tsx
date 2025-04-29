@@ -2,6 +2,7 @@ import axios from "axios";
 import { BookOpen, CircleHelp, LogOut, ShoppingCart, User } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks";
+import toast from "react-hot-toast";
 
 export const SideBar = () => {
     const navigate = useNavigate();
@@ -14,8 +15,10 @@ export const SideBar = () => {
             console.log(res.status, "logout");
             setAuthUser(null)
             navigate("/");
+            toast.success("Logout Successfully");
         } catch (e: any) {
             console.error(e.message);
+            toast.error("Error in Logout")
         }
     };
 

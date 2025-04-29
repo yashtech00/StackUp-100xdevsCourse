@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { UsercourseProp } from "./DashboardPage";
 import { useAuth } from "../hooks";
+import toast from "react-hot-toast";
 
 export const CourseDetails = () => {
     const { courseId } = useParams();
@@ -125,8 +126,10 @@ const BuyNowModel = ({
             await new Promise((resolve) => setTimeout(resolve, 2000)); // simulate delay
             await axios.post(`http://localhost:8001/user/purchase/${courseId}`, {}, { withCredentials: true });
             onPurchased(); // Update frontend after success
+            toast.success("Course Purchased Successfully");
         } catch (e: any) {
             console.error(e.message);
+            toast.error("Error while purchasing course");
         } finally {
             setLoading(false);
         }

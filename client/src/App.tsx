@@ -8,6 +8,7 @@ import Course from './Pages/User/Course';
 import { useAuth } from './hooks';
 import Purchased from './Pages/User/Purchased';
 import Help from './Pages/User/Help';
+import { Toaster } from "react-hot-toast";
 
 
 function UserLayout({ children }: { children: React.ReactNode }) {  
@@ -16,6 +17,9 @@ function UserLayout({ children }: { children: React.ReactNode }) {
       <SideBar /> 
       <main className='flex-grow overflow-y-auto p-4 '>
         {children} 
+        <Toaster
+          position='top-center'
+        />
         </main>
     </div>  
   );  
@@ -45,8 +49,10 @@ function App() {
           <Route path="/purchase" element={authUser  ? <UserLayout><Purchased/></UserLayout> : <Navigate to="/"/>} /> 
           <Route path="/help" element={authUser  ? <UserLayout><Help/></UserLayout> : <Navigate to="/" />}/> 
           <Route path="/course/:courseId" element={authUser  ? <UserLayout><Course/></UserLayout> : <Navigate to="/"/>} />  
-        </Routes>  
+        </Routes> 
+       
       </div>  
+      
     </BrowserRouter>  
   );  
 }  
